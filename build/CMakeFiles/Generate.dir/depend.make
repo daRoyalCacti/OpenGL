@@ -3,5 +3,6 @@
 
 CMakeFiles/Generate.dir/main.cpp.o: ../callbacks.h
 CMakeFiles/Generate.dir/main.cpp.o: ../global.h
+CMakeFiles/Generate.dir/main.cpp.o: ../inputs.h
 CMakeFiles/Generate.dir/main.cpp.o: ../main.cpp
 

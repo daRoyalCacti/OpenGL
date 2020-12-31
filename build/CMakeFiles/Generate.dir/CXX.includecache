@@ -14,6 +14,10 @@ global.h
 
 /home/george/Documents/Projects/OpenGl/global.h
 
+/home/george/Documents/Projects/OpenGl/inputs.h
+GLFW/glfw3.h
+-
+
 /home/george/Documents/Projects/OpenGl/main.cpp
 iostream
 /home/george/Documents/Projects/OpenGl/iostream
@@ -25,4 +29,6 @@ callbacks.h
 /home/george/Documents/Projects/OpenGl/callbacks.h
 global.h
 /home/george/Documents/Projects/OpenGl/global.h
+inputs.h
+/home/george/Documents/Projects/OpenGl/inputs.h
 

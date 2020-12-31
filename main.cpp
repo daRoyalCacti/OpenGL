@@ -8,6 +8,7 @@
 
 #include "callbacks.h"
 #include "global.h"
+#include "inputs.h"
 
 
 
@@ -58,6 +59,8 @@ int main() {
 	//the render loop
 	// - keeps running until the user says to stop
 	while (!glfwWindowShouldClose(window)) {	//was the window instructed to close (e.g. by pressing the 'x')
+
+		processInput(window);		//processing keyboard and mouse inputs
 
 		glfwSwapBuffers(window);	//swaps the color buffer (2D buffer that contains color values for each pixel in the window)
 						// - shows the output to the screen
