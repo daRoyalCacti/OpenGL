@@ -1,0 +1,36 @@
+CC = g++
+
+CFLAGS = -std=c++17 -I -lglfw3 -lGL -lX11 -lpthread -lXrandr -lXi -ldl
+
+IDIR = ..
+_DEPS = $(wildcard $(IDIR)/*.h)
+DEPS = $(patsubst %,%,$(_DEPS)) 
+
+SOURCE_DIR = ..
+ODIR = compiler_objects
+_OBJ = $(wildcard $(SOURCE_DIR)/*.cpp)
+OBJ = $(patsubst $(SOURCE_DIR)/%.CPP,$(ODIR)/%.O,$(_OBJ))
+
+
+OBJ = ../main.o
+
+EXE = Generate
+
+$(ODIR)/%.o: %.cpp $(DEPS)
+	$(CC) -c -o $@ $< $(CFLAGS) $(WFLAGS)
+
+$(ODIR)/%.o: $(SOURCE_DIR)/%.cpp $(DEPS)
+
+$(EXE): $(OBJ)
+	$(CC) -o $@ $^ $(CFLAGS) $(WFLAGS)
+
+.PHONY: test clean
+
+test: $(EXE)
+	./$(.EXE)
+
+clean:
+	rm -f $(ODIR)/*.o *~ $(INCDIR)/*~
+
+wipe:
+	rm -f $(ODIR)?*.o *~ $(INDIR)/*~ $(EXE)

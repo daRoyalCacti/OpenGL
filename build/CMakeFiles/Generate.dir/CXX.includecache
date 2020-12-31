@@ -1,0 +1,28 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/george/Documents/Projects/OpenGl/callbacks.h
+GLFW/glfw3.h
+-
+global.h
+/home/george/Documents/Projects/OpenGl/global.h
+
+/home/george/Documents/Projects/OpenGl/global.h
+
+/home/george/Documents/Projects/OpenGl/main.cpp
+iostream
+/home/george/Documents/Projects/OpenGl/iostream
+glad/glad.h
+-
+GLFW/glfw3.h
+-
+callbacks.h
+/home/george/Documents/Projects/OpenGl/callbacks.h
+global.h
+/home/george/Documents/Projects/OpenGl/global.h
+
