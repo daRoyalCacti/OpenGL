@@ -62,6 +62,15 @@ int main() {
 
 		processInput(window);		//processing keyboard and mouse inputs
 
+		//clearing the screen (so don't see the results from the previous  frame)
+		glClearColor(settings::window_clear_color_r, settings::window_clear_color_g, settings::window_clear_color_b, settings::window_clear_color_a);	//setting the clear color
+		glClear(GL_COLOR_BUFFER_BIT);	//want to clear the color buffer
+						//also possible
+						// - GL_DEPTH_BUFFER BIT
+						// - GL_STENCIL_BUFFER_BIT
+
+
+
 		glfwSwapBuffers(window);	//swaps the color buffer (2D buffer that contains color values for each pixel in the window)
 						// - shows the output to the screen
 						// - has double buffering because single buffering can cause flickering
