@@ -7,4 +7,8 @@ CMakeFiles/Generate.dir/main.cpp.o: ../global.h
 CMakeFiles/Generate.dir/main.cpp.o: ../inputs.h
 CMakeFiles/Generate.dir/main.cpp.o: ../main.cpp
 CMakeFiles/Generate.dir/main.cpp.o: ../mesh.h
+CMakeFiles/Generate.dir/main.cpp.o: ../mesh_list.h
+CMakeFiles/Generate.dir/main.cpp.o: ../scenes.h
+CMakeFiles/Generate.dir/main.cpp.o: ../shader.h
+CMakeFiles/Generate.dir/main.cpp.o: ../shader_list.h
 

@@ -43,12 +43,32 @@ inputs.h
 /home/george/Documents/Projects/OpenGl/inputs.h
 errors.h
 /home/george/Documents/Projects/OpenGl/errors.h
-mesh.h
-/home/george/Documents/Projects/OpenGl/mesh.h
+scenes.h
+/home/george/Documents/Projects/OpenGl/scenes.h
 
 /home/george/Documents/Projects/OpenGl/mesh.h
 glad/glad.h
 -
 vector
 -
+
+/home/george/Documents/Projects/OpenGl/mesh_list.h
+mesh.h
+/home/george/Documents/Projects/OpenGl/mesh.h
+
+/home/george/Documents/Projects/OpenGl/scenes.h
+mesh_list.h
+/home/george/Documents/Projects/OpenGl/mesh_list.h
+shader_list.h
+/home/george/Documents/Projects/OpenGl/shader_list.h
+
+/home/george/Documents/Projects/OpenGl/shader.h
+glad/glad.h
+-
+errors.h
+/home/george/Documents/Projects/OpenGl/errors.h
+
+/home/george/Documents/Projects/OpenGl/shader_list.h
+shader.h
+/home/george/Documents/Projects/OpenGl/shader.h
 
