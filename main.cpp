@@ -9,6 +9,28 @@
 #include "callbacks.h"
 #include "global.h"
 #include "inputs.h"
+#include "errors.h"
+
+
+float vertices[] = {	//normalized derive coordinates
+       	-0.5f, -0.5f, 0.0f,
+      	 0.5f, -0.5f, 0.0f,
+         0.0f,  0.5f, 0.0f
+};
+
+//vertex shader code
+const char *vertexShaderSource = "#version 330 core\n"
+    	"layout (location = 0) in vec3 aPos;\n"
+       	"void main(){\n"
+	"   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
+	"}\0";
+
+
+const char *fragmentShaderSource = "#version 330 core\n"
+    	"out vec4 FragColor;\n"
+ 	"void main(){\n"
+	"   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
+	"}\n\0";
 
 
 
@@ -52,11 +74,112 @@ int main() {
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
 
+	
+	//setting Vertex array Object
+	// - stores glVertexAttribPointer (for vertex attribute configurations and vertex buffer objects assocated with the vertex attributes)
+	unsigned VAO;
+	glGenVertexArrays(1, &VAO);
+
+	//bind the VAO first, then bind and set vertex buffers, then configure vertex attributes
+	glBindVertexArray(VAO);
+
+
+
+
+	//allocating memory and uploading the vertex data
+	unsigned int VBO;	//stores the id of the buffer object
+				// - if want more than 1 buffer object, the can be an array of unsigned ints
+				
+	glGenBuffers(1, &VBO);	//Generating the ids
+				// - 1 for 1 object
+				// - the ids are stored in VBO
+	
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);	//specifying the type of the buffer object
+						// in this case it is a vertex buffer so GL_ARRAY_BUFFER
+	
+	//any buffer calls that are made from here on are referencing the bounding buffer (VBO)
+	
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);	//copies the vertex data to the buffers memory
+											// - first argument is the type of buffer want to copy into
+											// - second argument is the size of the data in bytes to pass the to the buffer
+											// - third argument is the actual data
+											// - forth argument specifics how to graphics card should manage the supplied data
+											//   -- GL_STREAM_DRAW has the data sent once and used a few times (by the GPU)
+											//   -- Gl_STATIC_DRAW has the data sent once and used many times
+											//   -- GL_DYNAMIC_DRAW has the sent many times (because it is changing) and used many times
+
+	//current have the vertex data stored on the memory of the graphics card in a vertex buffer named VBO
+	
+	//linking vertex attributes
+	// - telling opengl how to interpret the vertex data
+	//working with the current bound VBO
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3*sizeof(float), (void*)0);	//first parameter specifices while attribute to configure
+											// - want 0 because position in the vertex shader is set by location = 0
+											//second parameter specifies the size of the vertex attribute
+											// - vertex attribute is a vec3 so its is composed of 3 values
+											//third argument specifies the type of the data
+											// - GL_FLOAT size a vec in GLSL consists of floating point values
+											//fourth argument specifies if the data should be normalised
+											// - Should be true if inputting integer data (not so GL_FALSE)
+											//firth argument is the stride (space between consecutive vertex attributes)
+											// - the next position is located 3 floats away (tightly packed)
+											//last argument is the offset (where the data begins in the buffer)
+											// - the data is at the start of the data so 0
+											// - requires the weird cast to a void*
+	glEnableVertexAttribArray(0);
+		
+
+
+	//compiling the vertex shader
+	unsigned vertexShader = glCreateShader(GL_VERTEX_SHADER);	//assigning an ID to reference the vertex shader
+									//GL_VERTEX_SHADER because want to create a vertexShader
+	
+	glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);	//attaching the shader source code to the sharder object
+									// - first argument is the shader object to compile to
+									// - second argument specifies how many strings the source code is (only 1 here)
+									// - third argument is the actual source code
+									// - leave forth argument blank
+	
+	glCompileShader(vertexShader);		//compiling the shader
+
+	//checking for errors compiling the shader
+	check_shader_compile(vertexShader);	//function defined in errors.h	
+
+
+
+	//compiling the fragment shader
+	//same as for the vertex shader but with GL_FRAGMENT_SHADER
+	unsigned fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+	glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
+	glCompileShader(fragmentShader);
+	check_shader_compile(fragmentShader);
+
+
+
+	//Creating the shader program
+	// - the linked version of multiple shaders
+	// - have to activate this shader program when rendering objects
+	// - the activated shader program wil be used when issueing render calls
+	//
+	// - links the output of each shader to the inputs of the next shader
+	
+	unsigned shaderProgram = glCreateProgram();	//creating the shader program and attaching it to an id (to reference the object)
+
+	glAttachShader(shaderProgram, vertexShader);	//attach the shaders to the program (in the correct order)
+	glAttachShader(shaderProgram, fragmentShader);
+	glLinkProgram(shaderProgram);		//link the shaders
+
+	check_shaderProgram_linking(shaderProgram);	//defined in errors.h
+
+	glDeleteShader(vertexShader);	//can delete the shader objects now
+	glDeleteShader(fragmentShader);	//they've been link into the program object
+	
+
 
 	//render
 	//===================================================================================================================================
 	
-	//the render loop
+		//the render loop
 	// - keeps running until the user says to stop
 	while (!glfwWindowShouldClose(window)) {	//was the window instructed to close (e.g. by pressing the 'x')
 
@@ -68,6 +191,17 @@ int main() {
 						//also possible
 						// - GL_DEPTH_BUFFER BIT
 						// - GL_STENCIL_BUFFER_BIT
+
+
+		glUseProgram(shaderProgram);	//activate the shader program
+						//every shader and rendering call after use will use this program object
+		
+		glBindVertexArray(VAO);		//setting the vertex buffer object to draw along with its attribute pointers
+
+		glDrawArrays(GL_TRIANGLES, 0, 3);	//GL_TRIANGLES because drawing triangles
+							// second argument specifies the starting index of the vertex array to draw
+							// third arguemtn is for how many vertices to draw
+
 
 
 

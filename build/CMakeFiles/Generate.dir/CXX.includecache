@@ -12,6 +12,14 @@ GLFW/glfw3.h
 global.h
 /home/george/Documents/Projects/OpenGl/global.h
 
+/home/george/Documents/Projects/OpenGl/errors.h
+iostream
+-
+glad/glad.h
+-
+string
+-
+
 /home/george/Documents/Projects/OpenGl/global.h
 
 /home/george/Documents/Projects/OpenGl/inputs.h
@@ -31,4 +39,6 @@ global.h
 /home/george/Documents/Projects/OpenGl/global.h
 inputs.h
 /home/george/Documents/Projects/OpenGl/inputs.h
+errors.h
+/home/george/Documents/Projects/OpenGl/errors.h
 
