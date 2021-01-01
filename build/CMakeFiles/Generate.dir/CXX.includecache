@@ -21,6 +21,8 @@ string
 -
 
 /home/george/Documents/Projects/OpenGl/global.h
+glad/glad.h
+-
 
 /home/george/Documents/Projects/OpenGl/inputs.h
 GLFW/glfw3.h

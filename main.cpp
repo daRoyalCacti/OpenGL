@@ -12,11 +12,16 @@
 #include "errors.h"
 
 
-float vertices[] = {	//normalized derive coordinates
-       	-0.5f, -0.5f, 0.0f,
-      	 0.5f, -0.5f, 0.0f,
-         0.0f,  0.5f, 0.0f
+float vertices[] = {
+	0.5f,  0.5f, 0.0f,  // top right
+	0.5f, -0.5f, 0.0f,  // bottom right
+	-0.5f, -0.5f, 0.0f,  // bottom left
+	-0.5f,  0.5f, 0.0f   // top left 
 };
+unsigned int indices[] = {  // note that we start from 0!
+	0, 1, 3,   // first triangle
+	1, 2, 3    // second triangle
+};  
 
 //vertex shader code
 const char *vertexShaderSource = "#version 330 core\n"
@@ -87,7 +92,7 @@ int main() {
 
 
 	//allocating memory and uploading the vertex data
-	unsigned int VBO;	//stores the id of the buffer object
+	unsigned VBO;	//stores the id of the buffer object
 				// - if want more than 1 buffer object, the can be an array of unsigned ints
 				
 	glGenBuffers(1, &VBO);	//Generating the ids
@@ -109,6 +114,18 @@ int main() {
 											//   -- GL_DYNAMIC_DRAW has the sent many times (because it is changing) and used many times
 
 	//current have the vertex data stored on the memory of the graphics card in a vertex buffer named VBO
+	
+
+	
+	//allocating memory and uploaing the index data
+	// - very similar to the vertex data
+	unsigned EBO;
+	glGenBuffers(1, &EBO);
+	
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
+
 	
 	//linking vertex attributes
 	// - telling opengl how to interpret the vertex data
@@ -179,7 +196,9 @@ int main() {
 	//render
 	//===================================================================================================================================
 	
-		//the render loop
+	glPolygonMode(GL_FRONT_AND_BACK, settings::polygon_fill_mode);
+
+	//the render loop
 	// - keeps running until the user says to stop
 	while (!glfwWindowShouldClose(window)) {	//was the window instructed to close (e.g. by pressing the 'x')
 
@@ -198,9 +217,12 @@ int main() {
 		
 		glBindVertexArray(VAO);		//setting the vertex buffer object to draw along with its attribute pointers
 
-		glDrawArrays(GL_TRIANGLES, 0, 3);	//GL_TRIANGLES because drawing triangles
-							// second argument specifies the starting index of the vertex array to draw
-							// third arguemtn is for how many vertices to draw
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);	//GL_TRIANGLES because drawing triangles
+									// second argument is the number of elements to draw
+									// third argument is the type of the indices
+									// last argument is an offset in the EBO
+
+		//glBindVertexArray(0);		//to unbind the Vertex array
 
 
 

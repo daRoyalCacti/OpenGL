@@ -1,5 +1,7 @@
 #pragma once
 
+#include <glad/glad.h>
+
 namespace settings {
 	//setting attributes for the main window
 	constexpr unsigned window_width = 800;
@@ -11,6 +13,10 @@ namespace settings {
 	constexpr float window_clear_color_g = 0.3f;
 	constexpr float window_clear_color_b = 0.3f;
 	constexpr float window_clear_color_a = 1.0f;
+
+	constexpr GLenum polygon_fill_mode = GL_FILL;	//possibilities:
+							// - GL_LINE for wireframe
+							// - GL_FILL for regular filled triangles
 
 	//derived from other settings
 	//==========================================
