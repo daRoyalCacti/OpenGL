@@ -10,18 +10,25 @@
 #include "global.h"
 #include "inputs.h"
 #include "errors.h"
+#include "mesh.h"
+
+/*std::vector<float> vertices = {
+	-0.5f, -0.5f, 0.0f, // left  
+	0.5f, -0.5f, 0.0f, // right 
+	0.0f,  0.5f, 0.0f  // top   
+};*/
 
 
-float vertices[] = {
+std::vector<float> vertices = {
 	0.5f,  0.5f, 0.0f,  // top right
 	0.5f, -0.5f, 0.0f,  // bottom right
 	-0.5f, -0.5f, 0.0f,  // bottom left
 	-0.5f,  0.5f, 0.0f   // top left 
 };
-unsigned int indices[] = {  // note that we start from 0!
+std::vector<unsigned> indices = {  // note that we start from 0!
 	0, 1, 3,   // first triangle
 	1, 2, 3    // second triangle
-};  
+};
 
 //vertex shader code
 const char *vertexShaderSource = "#version 330 core\n"
@@ -79,7 +86,9 @@ int main() {
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
 
-	
+	mesh_i curr_mesh(vertices, indices);
+	curr_mesh.init();
+	/*
 	//setting Vertex array Object
 	// - stores glVertexAttribPointer (for vertex attribute configurations and vertex buffer objects assocated with the vertex attributes)
 	unsigned VAO;
@@ -144,6 +153,7 @@ int main() {
 											// - the data is at the start of the data so 0
 											// - requires the weird cast to a void*
 	glEnableVertexAttribArray(0);
+	*/
 		
 
 
@@ -212,6 +222,7 @@ int main() {
 						// - GL_STENCIL_BUFFER_BIT
 
 
+		/*
 		glUseProgram(shaderProgram);	//activate the shader program
 						//every shader and rendering call after use will use this program object
 		
@@ -221,9 +232,13 @@ int main() {
 									// second argument is the number of elements to draw
 									// third argument is the type of the indices
 									// last argument is an offset in the EBO
-
+		
 		//glBindVertexArray(0);		//to unbind the Vertex array
+		 */
 
+		curr_mesh.draw(shaderProgram);
+
+		
 
 
 

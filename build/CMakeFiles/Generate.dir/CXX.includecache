@@ -43,4 +43,12 @@ inputs.h
 /home/george/Documents/Projects/OpenGl/inputs.h
 errors.h
 /home/george/Documents/Projects/OpenGl/errors.h
+mesh.h
+/home/george/Documents/Projects/OpenGl/mesh.h
+
+/home/george/Documents/Projects/OpenGl/mesh.h
+glad/glad.h
+-
+vector
+-
 
