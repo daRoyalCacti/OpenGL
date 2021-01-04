@@ -164,6 +164,11 @@ namespace scenes {
 							
 			float greeValue = (sin(time) / 2.0f) + 0.5f;	//the color to set the triangle to
 			int vertexColorLocation = glGetUniformLocation(curr_shader.program(), "ourColor");	//getting the uniform variable defined in the shader code
+
+			if (vertexColorLocation == -1) {	//the uniform could not be found
+				std::cerr << "could not find uniform ourColor" << std::endl;
+			}
+
 			glUseProgram(curr_shader.program());
 			glUniform4f(vertexColorLocation, 0.0f, greeValue, 0.0f, 1.0f);		//setting the color value
 
