@@ -1,4 +1,4 @@
-# Install script for directory: /home/george/Documents/Projects/OpenGl
+# Install script for directory: /home/jacob/Documents/Projects/OpenGl
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -50,5 +50,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/george/Documents/Projects/OpenGl/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/jacob/Documents/Projects/OpenGl/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

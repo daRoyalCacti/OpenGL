@@ -1,7 +1,6 @@
 #include "iostream"
 
 //glad must be included before GLWF
-//#include "glad/glad.h"
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
@@ -12,6 +11,7 @@
 #include "errors.h"
 
 #include "scenes.h"
+#include "debug.h"
 
 /*std::vector<float> vertices = {
 	-0.5f, -0.5f, 0.0f, // left  
@@ -94,7 +94,7 @@ int main() {
 	shader_b curr_shader;
 	curr_shader.set_shaders(vertexShaderSource, fragmentShaderSource);*/
 
-	scenes::rectangle curr_scene;
+	scenes::two_triangles2 curr_scene;
 	curr_scene.init();
 
 

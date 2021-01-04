@@ -4,7 +4,7 @@
 # compile C with /usr/bin/cc
 C_DEFINES = 
 
-C_INCLUDES = -I/home/george/Documents/Projects/OpenGl
+C_INCLUDES = -I/home/jacob/Documents/Projects/OpenGl
 
 C_FLAGS = -g
 

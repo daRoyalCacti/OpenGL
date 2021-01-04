@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/george/Documents/Projects/OpenGl -I/home/george/Documents/Projects/OpenGl/include
+CXX_INCLUDES = -I/home/jacob/Documents/Projects/OpenGl -I/home/jacob/Documents/Projects/OpenGl/include
 
 CXX_FLAGS = -g -std=gnu++17
 
