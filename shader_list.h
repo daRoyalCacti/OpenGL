@@ -43,4 +43,27 @@ namespace shaders {
 		return temp_shader;
 	}
 
+	inline shader_b fixed_color() {	//example of passing info from the vertex shader to the fragment shader
+		//vertex shader code
+		const char *vertexShaderSource = "#version 330 core\n"
+			"layout (location = 0) in vec3 aPos;\n"
+			"out vec4 vertexColor;\n"
+			"void main(){\n"
+			"   gl_Position = vec4(aPos, 1.0);\n"
+			"   vertexColor = vec4(0.5, 0.0, 0.0, 1.0f);"
+			"}\0";
+
+		//fragment shader code
+		const char *fragmentShaderSource = "#version 330 core\n"
+			"out vec4 FragColor;\n"
+			"in vec4 vertexColor;\n"
+			"void main(){\n"
+			"   FragColor = vertexColor;\n"
+			"}\n\0";
+		
+		shader_b temp_shader;
+		temp_shader.set_shaders(vertexShaderSource, fragmentShaderSource);
+		return temp_shader;
+	}
+
 };

@@ -94,7 +94,7 @@ int main() {
 	shader_b curr_shader;
 	curr_shader.set_shaders(vertexShaderSource, fragmentShaderSource);*/
 
-	scenes::two_triangles2 curr_scene;
+	scenes::triangle2 curr_scene;
 	curr_scene.init();
 
 

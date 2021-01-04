@@ -113,4 +113,29 @@ namespace scenes {
 	};
 
 
+
+	struct triangle2 {
+		mesh_b curr_mesh;
+		shader_b curr_shader;
+
+		triangle2() {
+			curr_mesh = meshes::single_triangle();
+			curr_shader = shaders::fixed_color();
+		}
+
+		inline void init() {
+			curr_mesh.init();
+		}
+
+		inline void draw() {
+			//clearing the screen (so don't see the results from the previous  frame)
+			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);	//setting the clear color
+			glClear(GL_COLOR_BUFFER_BIT);	//want to clear the color buffer
+							//also possible
+							// - GL_DEPTH_BUFFER BIT
+							// - GL_STENCIL_BUFFER_BIT
+			curr_mesh.draw(curr_shader.program());
+		}
+	};
+
 };
