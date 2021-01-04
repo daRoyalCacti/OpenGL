@@ -3,6 +3,8 @@
 #include "mesh_list.h"
 #include "shader_list.h"
 
+#include <cmath>
+
 
 namespace scenes {
 
@@ -19,7 +21,7 @@ namespace scenes {
 			curr_mesh.init();
 		}
 
-		inline void draw() {
+		inline void draw(float time, unsigned long frameCounter, float deltaTime) {
 			//clearing the screen (so don't see the results from the previous  frame)
 			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);	//setting the clear color
 			glClear(GL_COLOR_BUFFER_BIT);	//want to clear the color buffer
@@ -44,7 +46,7 @@ namespace scenes {
 			curr_mesh.init();
 		}
 
-		inline void draw() {
+		inline void draw(float time, unsigned long frameCounter, float deltaTime) {
 			//clearing the screen (so don't see the results from the previous  frame)
 			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);	//setting the clear color
 			glClear(GL_COLOR_BUFFER_BIT);	//want to clear the color buffer
@@ -69,7 +71,7 @@ namespace scenes {
 			curr_mesh.init();
 		}
 
-		inline void draw() {
+		inline void draw(float time, unsigned long frameCounter, float deltaTime) {
 			//clearing the screen (so don't see the results from the previous  frame)
 			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);	//setting the clear color
 			glClear(GL_COLOR_BUFFER_BIT);	//want to clear the color buffer
@@ -100,7 +102,7 @@ namespace scenes {
 			mesh2.init();
 		}
 
-		inline void draw() {
+		inline void draw(float time, unsigned long frameCounter, float deltaTime) {
 			//clearing the screen (so don't see the results from the previous  frame)
 			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);	//setting the clear color
 			glClear(GL_COLOR_BUFFER_BIT);	//want to clear the color buffer
@@ -127,13 +129,44 @@ namespace scenes {
 			curr_mesh.init();
 		}
 
-		inline void draw() {
+		inline void draw(float time, unsigned long frameCounter, float deltaTime) {
 			//clearing the screen (so don't see the results from the previous  frame)
 			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);	//setting the clear color
 			glClear(GL_COLOR_BUFFER_BIT);	//want to clear the color buffer
 							//also possible
 							// - GL_DEPTH_BUFFER BIT
 							// - GL_STENCIL_BUFFER_BIT
+			curr_mesh.draw(curr_shader.program());
+		}
+	};
+
+
+	struct triangle_color_varying {
+		mesh_b curr_mesh;
+		shader_b curr_shader;
+
+		triangle_color_varying() {
+			curr_mesh = meshes::single_triangle();
+			curr_shader = shaders::color_through_uniforms();
+		}
+
+		inline void init() {
+			curr_mesh.init();
+		}
+
+		inline void draw(float time, unsigned long frameCounter, float deltaTime) {
+			//clearing the screen (so don't see the results from the previous  frame)
+			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);	//setting the clear color
+			glClear(GL_COLOR_BUFFER_BIT);	//want to clear the color buffer
+							//also possible
+							// - GL_DEPTH_BUFFER BIT
+							// - GL_STENCIL_BUFFER_BIT
+							
+			float greeValue = (sin(time) / 2.0f) + 0.5f;	//the color to set the triangle to
+			int vertexColorLocation = glGetUniformLocation(curr_shader.program(), "ourColor");	//getting the uniform variable defined in the shader code
+			glUseProgram(curr_shader.program());
+			glUniform4f(vertexColorLocation, 0.0f, greeValue, 0.0f, 1.0f);		//setting the color value
+
 			curr_mesh.draw(curr_shader.program());
 		}
 	};

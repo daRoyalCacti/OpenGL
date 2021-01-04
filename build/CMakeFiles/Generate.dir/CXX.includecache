@@ -69,6 +69,8 @@ mesh_list.h
 /home/jacob/Documents/Projects/OpenGl/mesh_list.h
 shader_list.h
 /home/jacob/Documents/Projects/OpenGl/shader_list.h
+cmath
+-
 
 /home/jacob/Documents/Projects/OpenGl/shader.h
 glad/glad.h

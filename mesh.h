@@ -68,7 +68,7 @@ struct mesh_b {
 
 	}
 
-	virtual void draw(unsigned shaderProgram, int frame = 0) {
+	virtual void draw(unsigned shaderProgram, float time = 0, unsigned long frameCounter = 0, float deltaTime = 0) {
 		glUseProgram(shaderProgram);	//activate the shader program
 						//every shader and rendering call after use will use this program object
 		
@@ -162,7 +162,7 @@ struct mesh_i : public mesh_b {
 	}
 
 
-	virtual void draw(unsigned shaderProgram, int frame = 0) {
+	virtual void draw(unsigned shaderProgram, float time = 0, unsigned long frameCounter = 0, float deltaTime = 0) {
 		glUseProgram(shaderProgram);	//activate the shader program
 						//every shader and rendering call after use will use this program object
 		

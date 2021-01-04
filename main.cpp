@@ -13,37 +13,6 @@
 #include "scenes.h"
 #include "debug.h"
 
-/*std::vector<float> vertices = {
-	-0.5f, -0.5f, 0.0f, // left  
-	0.5f, -0.5f, 0.0f, // right 
-	0.0f,  0.5f, 0.0f  // top   
-};*/
-
-
-std::vector<float> vertices = {
-	0.5f,  0.5f, 0.0f,  // top right
-	0.5f, -0.5f, 0.0f,  // bottom right
-	-0.5f, -0.5f, 0.0f,  // bottom left
-	-0.5f,  0.5f, 0.0f   // top left 
-};
-std::vector<unsigned> indices = {  // note that we start from 0!
-	0, 1, 3,   // first triangle
-	1, 2, 3    // second triangle
-};
-
-//vertex shader code
-const char *vertexShaderSource = "#version 330 core\n"
-    	"layout (location = 0) in vec3 aPos;\n"
-       	"void main(){\n"
-	"   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
-	"}\0";
-
-
-const char *fragmentShaderSource = "#version 330 core\n"
-    	"out vec4 FragColor;\n"
- 	"void main(){\n"
-	"   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
-	"}\n\0";
 
 
 
@@ -87,14 +56,8 @@ int main() {
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
 
-	/*mesh_i curr_mesh(vertices, indices);
-	curr_mesh.init();
-		
 
-	shader_b curr_shader;
-	curr_shader.set_shaders(vertexShaderSource, fragmentShaderSource);*/
-
-	scenes::triangle2 curr_scene;
+	scenes::triangle_color_varying curr_scene;
 	curr_scene.init();
 
 
@@ -104,15 +67,22 @@ int main() {
 	
 	glPolygonMode(GL_FRONT_AND_BACK, settings::polygon_fill_mode);
 
+	float currTime, prevTime = -1;
+	unsigned long frameCounter = 0;
+	float deltaTime;
+
 	//the render loop
 	// - keeps running until the user says to stop
 	while (!glfwWindowShouldClose(window)) {	//was the window instructed to close (e.g. by pressing the 'x')
+		currTime = glfwGetTime();
+		deltaTime = currTime - prevTime;
+		prevTime = currTime;
 
 		processInput(window);		//processing keyboard and mouse inputs
 
 
 
-		curr_scene.draw();
+		curr_scene.draw(currTime, frameCounter, deltaTime);
 		
 
 
