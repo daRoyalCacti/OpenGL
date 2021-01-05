@@ -57,6 +57,29 @@ namespace scenes {
 		}
 	};
 
+	struct rectangle2 {
+		mesh_i curr_mesh;
+		shader_b curr_shader;
+
+		rectangle2() {
+			curr_mesh = meshes::rectangle();
+			curr_shader = shaders::toy1();
+		}
+
+		inline void init() {
+			curr_mesh.init();
+		}
+
+		inline void draw(float time, unsigned long frameCounter, float deltaTime) {
+			//clearing the screen (so don't see the results from the previous  frame)
+			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);	//setting the clear color
+			glClear(GL_COLOR_BUFFER_BIT);	//want to clear the color buffer
+							//also possible
+							// - GL_DEPTH_BUFFER BIT
+							// - GL_STENCIL_BUFFER_BIT
+			curr_mesh.draw(curr_shader.program());
+		}
+	};
 
 	struct two_triangles1 {
 		mesh_b curr_mesh;
