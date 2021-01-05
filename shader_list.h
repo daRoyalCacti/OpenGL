@@ -88,4 +88,29 @@ namespace shaders {
 		return temp_shader;
 	}
 
+
+	inline shader_b vertex_colors() {	//example of passing info from the vertex shader to the fragment shader
+		//vertex shader code
+		const char *vertexShaderSource = "#version 330 core\n"
+			"layout (location = 0) in vec3 aPos;\n"		//position of vertex
+			"layout (location = 1) in vec3 aColor;\n"	//color of vertex
+			"out vec3 ourColor;\n"		//color to pass to fragment shader
+			"void main(){\n"
+			"   gl_Position = vec4(aPos, 1.0);\n"
+			"   ourColor = aColor;\n"
+			"}\0";
+
+		//fragment shader code
+		const char *fragmentShaderSource = "#version 330 core\n"
+			"out vec4 FragColor;\n"
+			"in vec3 ourColor;\n"
+			"void main(){\n"
+			"   FragColor = vec4(ourColor, 1.0);\n"
+			"}\n\0";
+		
+		shader_b temp_shader;
+		temp_shader.set_shaders(vertexShaderSource, fragmentShaderSource);
+		return temp_shader;
+	}
+
 };
