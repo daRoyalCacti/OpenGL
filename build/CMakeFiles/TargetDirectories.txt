@@ -1,4 +1,0 @@
-/home/jacob/Documents/Projects/OpenGl/build/CMakeFiles/rebuild_cache.dir
-/home/jacob/Documents/Projects/OpenGl/build/CMakeFiles/edit_cache.dir
-/home/jacob/Documents/Projects/OpenGl/build/CMakeFiles/GLAD.dir
-/home/jacob/Documents/Projects/OpenGl/build/CMakeFiles/Generate.dir

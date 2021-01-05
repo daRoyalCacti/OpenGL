@@ -1,3 +1,0 @@
-cmake -H. -DCMAKE_BUILD_TYPE=Debug -G "Unix Makefiles" ..
-
-after can run make and make test
