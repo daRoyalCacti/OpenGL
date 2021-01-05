@@ -2,16 +2,22 @@
 
 #include <glad/glad.h>
 #include <vector>
+#include "shader.h"
 
 //base mesh class
 struct mesh_b {
 	std::vector<float> vertices;
 	unsigned VAO;
+	shader_b mesh_shader;
 
 	mesh_b() {};
-	mesh_b(const std::vector<float> v) : vertices(v) {}
+	mesh_b(const std::vector<float> v, const shader_b s) : vertices(v), mesh_shader(s) {}
+
+	inline shader_b get_shader() {
+		return mesh_shader;
+	}
 	
-	virtual void init(GLuint v_index_in_shader = 0, GLuint c_index_in_shader = 1, GLenum usage_v = GL_STATIC_DRAW, GLenum usage_i = GL_STATIC_DRAW) {
+	void init(GLenum usage = GL_STATIC_DRAW) {
 		//setting Vertex array Object
 		// - stores glVertexAttribPointer (for vertex attribute configurations and vertex buffer objects assocated with the vertex attributes)
 		glGenVertexArrays(1, &VAO);
@@ -35,7 +41,7 @@ struct mesh_b {
 		
 		//any buffer calls that are made from here on are referencing the bounding buffer (VBO)
 		
-		glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(float), vertices.data(), usage_v);	//copies the vertex data to the buffers memory
+		glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(float), vertices.data(), usage);	//copies the vertex data to the buffers memory
 												// - first argument is the type of buffer want to copy into
 												// - second argument is the size of the data in bytes to pass the to the buffer
 												// - third argument is the actual data
@@ -51,29 +57,16 @@ struct mesh_b {
 		//linking vertex attributes
 		// - telling opengl how to interpret the vertex data
 		//working with the current bound VBO
-		glVertexAttribPointer(v_index_in_shader, 3, GL_FLOAT, GL_FALSE, 3*sizeof(float), (void*)0);	//first parameter specifices what attribute to configure
-												// - want 0 because position in the vertex shader is set by location = 0
-												//second parameter specifies the size of the vertex attribute
-												// - vertex attribute is a vec3 so its is composed of 3 values
-												//third argument specifies the type of the data
-												// - GL_FLOAT size a vec in GLSL consists of floating point values
-												//fourth argument specifies if the data should be normalised
-												// - Should be true if inputting integer data (not so GL_FALSE)
-												//firth argument is the stride (space between consecutive vertex attributes)
-												// - the next position is located 3 floats away (tightly packed)
-												//last argument is the offset (where the data begins in the buffer)
-												// - the data is at the start of the data so 0
-												// - requires the weird cast to a void*
+		mesh_shader.attribs(0).set_glVertexAttribPointer();
 		glEnableVertexAttribArray(0);
 
 	}
 
-	virtual void draw(unsigned shaderProgram, float time = 0, unsigned long frameCounter = 0, float deltaTime = 0) {
-		glUseProgram(shaderProgram);	//activate the shader program
+	virtual void draw(float time = 0, unsigned long frameCounter = 0, float deltaTime = 0) {
+		glUseProgram(mesh_shader.program());	//activate the shader program
 						//every shader and rendering call after use will use this program object
 		
 		glBindVertexArray(VAO);		//setting the vertex buffer object to draw along with its attribute pointers
-
 
 		glDrawArrays(GL_TRIANGLES, 0, vertices.size() / 3);	//GL_TRIANGLES because drawing triangles
 							// second argument specifies the starting index of the vertex array to draw
@@ -88,11 +81,14 @@ struct mesh_b {
 struct mesh_i : public mesh_b {
 	std::vector<unsigned> indices;
 
-	mesh_i() : mesh_b() {};
-	mesh_i(const std::vector<float> v, const std::vector<unsigned> i) : mesh_b(v), indices(i) {}
+	mesh_i() {};
+	mesh_i(const std::vector<float> v, const std::vector<unsigned> i, shader_b s) : indices(i) {
+		vertices = v;
+		mesh_shader = s;
+	}
 
 
-	virtual void init(GLuint v_index_in_shader = 0, GLuint c_index_in_shader = 1, GLenum usage_v = GL_STATIC_DRAW, GLenum usage_i = GL_STATIC_DRAW) {
+	void init(GLenum usage_v = GL_STATIC_DRAW, GLenum usage_i = GL_STATIC_DRAW) {
 		//usage_v is the usage for the vertices
 		//usage_i is the usage of the indices
 
@@ -145,25 +141,13 @@ struct mesh_i : public mesh_b {
 		//linking vertex attributes
 		// - telling opengl how to interpret the vertex data
 		//working with the current bound VBO
-		glVertexAttribPointer(v_index_in_shader, 3, GL_FLOAT, GL_FALSE, 3*sizeof(float), (void*)0);	//first parameter specifices while attribute to configure
-												// - want 0 because position in the vertex shader is set by location = 0
-												//second parameter specifies the size of the vertex attribute
-												// - vertex attribute is a vec3 so its is composed of 3 values
-												//third argument specifies the type of the data
-												// - GL_FLOAT size a vec in GLSL consists of floating point values
-												//fourth argument specifies if the data should be normalised
-												// - Should be true if inputting integer data (not so GL_FALSE)
-												//firth argument is the stride (space between consecutive vertex attributes)
-												// - the next position is located 3 floats away (tightly packed)
-												//last argument is the offset (where the data begins in the buffer)
-												// - the data is at the start of the data so 0
-												// - requires the weird cast to a void*
+		mesh_shader.attribs(0).set_glVertexAttribPointer();
 		glEnableVertexAttribArray(0);
 	}
 
 
-	virtual void draw(unsigned shaderProgram, float time = 0, unsigned long frameCounter = 0, float deltaTime = 0) {
-		glUseProgram(shaderProgram);	//activate the shader program
+	virtual void draw(float time = 0, unsigned long frameCounter = 0, float deltaTime = 0) {
+		glUseProgram(mesh_shader.program());	//activate the shader program
 						//every shader and rendering call after use will use this program object
 		
 		glBindVertexArray(VAO);		//setting the vertex buffer object to draw along with its attribute pointers
@@ -183,10 +167,13 @@ struct mesh_i : public mesh_b {
 //mesh class with only a vertex array and colors for each vertex
 struct mesh_bc : public mesh_b{
 
-	mesh_bc() : mesh_b() {};
-	mesh_bc(const std::vector<float> v) : mesh_b(v) {}
+	mesh_bc() {};
+	mesh_bc(const std::vector<float> v, shader_c s) {
+		vertices = v;
+		mesh_shader = s;
+	}
 	
-	virtual void init(GLuint v_index_in_shader = 0, GLuint c_index_in_shader = 1, GLenum usage_v = GL_STATIC_DRAW, GLenum usage_i = GL_STATIC_DRAW) {
+	void init(GLuint v_index_in_shader = 0, GLuint c_index_in_shader = 1, GLenum usage = GL_STATIC_DRAW) {
 		//setting Vertex array Object
 		// - stores glVertexAttribPointer (for vertex attribute configurations and vertex buffer objects assocated with the vertex attributes)
 		glGenVertexArrays(1, &VAO);
@@ -210,7 +197,7 @@ struct mesh_bc : public mesh_b{
 		
 		//any buffer calls that are made from here on are referencing the bounding buffer (VBO)
 		
-		glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(float), vertices.data(), usage_v);	//copies the vertex data to the buffers memory
+		glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(float), vertices.data(), usage);	//copies the vertex data to the buffers memory
 												// - first argument is the type of buffer want to copy into
 												// - second argument is the size of the data in bytes to pass the to the buffer
 												// - third argument is the actual data
@@ -227,26 +214,20 @@ struct mesh_bc : public mesh_b{
 		// - telling opengl how to interpret the vertex data
 		//working with the current bound VBO
 
-		//position data
-		glVertexAttribPointer(v_index_in_shader, 3, GL_FLOAT, GL_FALSE, 6*sizeof(float), (void*)0);	//first parameter specifices what attribute to configure
-												// - want 0 because position in the vertex shader is set by location = 0
-												//second parameter specifies the size of the vertex attribute
-												// - vertex attribute is a vec3 so its is composed of 3 values
-												//third argument specifies the type of the data
-												// - GL_FLOAT size a vec in GLSL consists of floating point values
-												//fourth argument specifies if the data should be normalised
-												// - Should be true if inputting integer data (not so GL_FALSE)
-												//firth argument is the stride (space between consecutive vertex attributes)
-												// - the next position is located 6 floats away (not tightly packed)
-												//last argument is the offset (where the data begins in the buffer)
-												// - the data is at the start of the data so 0
-												// - requires the weird cast to a void*
+		for (int i = 0; i < 2; i++) {
+			//i = 0 -> position data
+			//i = 1 -> color data
+			mesh_shader.attribs(i).set_glVertexAttribPointer();
+			glEnableVertexAttribArray(i);
+		}
+
+/*
+		// position attribute
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
 		glEnableVertexAttribArray(0);
-
-		//color data
-		glVertexAttribPointer(c_index_in_shader, 3, GL_FLOAT, GL_FALSE, 6*sizeof(float), (void*)(3*sizeof(float)) );
+		// color attribute
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3* sizeof(float)));
 		glEnableVertexAttribArray(1);
-		
-
+*/
 	}
 };

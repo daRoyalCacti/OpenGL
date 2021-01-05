@@ -18,9 +18,7 @@ namespace shaders {
 			"   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
 			"}\n\0";
 		
-		shader_b temp_shader;
-		temp_shader.set_shaders(vertexShaderSource, fragmentShaderSource);
-		return temp_shader;
+		return shader_b(vertexShaderSource, fragmentShaderSource);
 	}
 
 	inline shader_b toy1() {
@@ -38,9 +36,7 @@ namespace shaders {
 			"   FragColor = vec4(0.74f, 0.71f, 0.0f, 1.0f);\n"
 			"}\n\0";
 		
-		shader_b temp_shader;
-		temp_shader.set_shaders(vertexShaderSource, fragmentShaderSource);
-		return temp_shader;
+		return shader_b(vertexShaderSource, fragmentShaderSource);
 	}
 
 	inline shader_b fixed_color() {	//example of passing info from the vertex shader to the fragment shader
@@ -61,9 +57,7 @@ namespace shaders {
 			"   FragColor = vertexColor;\n"
 			"}\n\0";
 		
-		shader_b temp_shader;
-		temp_shader.set_shaders(vertexShaderSource, fragmentShaderSource);
-		return temp_shader;
+		return shader_b(vertexShaderSource, fragmentShaderSource);
 	}
 
 
@@ -83,13 +77,11 @@ namespace shaders {
 			"   FragColor = ourColor;\n"
 			"}\n\0";
 		
-		shader_b temp_shader;
-		temp_shader.set_shaders(vertexShaderSource, fragmentShaderSource);
-		return temp_shader;
+		return shader_b(vertexShaderSource, fragmentShaderSource);
 	}
 
 
-	inline shader_b vertex_colors() {	//example of passing info from the vertex shader to the fragment shader
+	inline shader_c vertex_colors() {	//example of passing info from the vertex shader to the fragment shader
 		//vertex shader code
 		const char *vertexShaderSource = "#version 330 core\n"
 			"layout (location = 0) in vec3 aPos;\n"		//position of vertex
@@ -105,12 +97,10 @@ namespace shaders {
 			"out vec4 FragColor;\n"
 			"in vec3 ourColor;\n"
 			"void main(){\n"
-			"   FragColor = vec4(ourColor, 1.0);\n"
+			"   FragColor =vec4(ourColor, 1.0);\n"
 			"}\n\0";
 		
-		shader_b temp_shader;
-		temp_shader.set_shaders(vertexShaderSource, fragmentShaderSource);
-		return temp_shader;
+		return shader_c(vertexShaderSource, fragmentShaderSource);
 	}
 
 };

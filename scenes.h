@@ -10,11 +10,10 @@ namespace scenes {
 
 	struct triangle {
 		mesh_b curr_mesh;
-		shader_b curr_shader;
 
 		triangle() {
-			curr_mesh = meshes::single_triangle();
-			curr_shader = shaders::toy();
+			shader_b temp_shader = shaders::toy();
+			curr_mesh = meshes::single_triangle(temp_shader);	
 		}
 
 		inline void init() {
@@ -28,18 +27,17 @@ namespace scenes {
 							//also possible
 							// - GL_DEPTH_BUFFER BIT
 							// - GL_STENCIL_BUFFER_BIT
-			curr_mesh.draw(curr_shader.program());
+			curr_mesh.draw();
 		}
 	};
 
 
 	struct rectangle {
 		mesh_i curr_mesh;
-		shader_b curr_shader;
 
 		rectangle() {
-			curr_mesh = meshes::rectangle();
-			curr_shader = shaders::toy();
+			shader_b temp_shader = shaders::toy();
+			curr_mesh = meshes::rectangle(temp_shader);
 		}
 
 		inline void init() {
@@ -53,17 +51,16 @@ namespace scenes {
 							//also possible
 							// - GL_DEPTH_BUFFER BIT
 							// - GL_STENCIL_BUFFER_BIT
-			curr_mesh.draw(curr_shader.program());
+			curr_mesh.draw();
 		}
 	};
 
 	struct rectangle2 {
 		mesh_i curr_mesh;
-		shader_b curr_shader;
 
 		rectangle2() {
-			curr_mesh = meshes::rectangle();
-			curr_shader = shaders::toy1();
+			shader_b temp_shader = shaders::toy1();
+			curr_mesh = meshes::rectangle(temp_shader);
 		}
 
 		inline void init() {
@@ -77,17 +74,16 @@ namespace scenes {
 							//also possible
 							// - GL_DEPTH_BUFFER BIT
 							// - GL_STENCIL_BUFFER_BIT
-			curr_mesh.draw(curr_shader.program());
+			curr_mesh.draw();
 		}
 	};
 
 	struct two_triangles1 {
 		mesh_b curr_mesh;
-		shader_b curr_shader;
 
 		two_triangles1() {
-			curr_mesh = meshes::two_triangles1();
-			curr_shader = shaders::toy();
+			shader_b temp_shader = shaders::toy();
+			curr_mesh = meshes::two_triangles1(temp_shader);
 		}
 
 		inline void init() {
@@ -101,7 +97,7 @@ namespace scenes {
 							//also possible
 							// - GL_DEPTH_BUFFER BIT
 							// - GL_STENCIL_BUFFER_BIT
-			curr_mesh.draw(curr_shader.program());
+			curr_mesh.draw();
 		}
 	};
 
@@ -109,15 +105,13 @@ namespace scenes {
 	struct two_triangles2 {
 		mesh_b mesh1;
 		mesh_b mesh2;
-		shader_b shader1;
-		shader_b shader2;
 
 		two_triangles2() {
-			mesh1 = meshes::single_triangle1();
-			mesh2 = meshes::single_triangle2();
+			shader_b temp_shader = shaders::toy();
+			mesh1 = meshes::single_triangle1(temp_shader);
 
-			shader1 = shaders::toy();
-			shader2 = shaders::toy1();
+			temp_shader = shaders::toy1();
+			mesh2 = meshes::single_triangle2(temp_shader);
 		}
 
 		inline void init() {
@@ -132,8 +126,8 @@ namespace scenes {
 							//also possible
 							// - GL_DEPTH_BUFFER BIT
 							// - GL_STENCIL_BUFFER_BIT
-			mesh1.draw(shader1.program());
-			mesh2.draw(shader2.program());
+			mesh1.draw();
+			mesh2.draw();
 		}
 	};
 
@@ -141,11 +135,10 @@ namespace scenes {
 
 	struct triangle2 {
 		mesh_b curr_mesh;
-		shader_b curr_shader;
 
 		triangle2() {
-			curr_mesh = meshes::single_triangle();
-			curr_shader = shaders::fixed_color();
+			shader_b temp_shader = shaders::fixed_color();
+			curr_mesh = meshes::single_triangle(temp_shader);
 		}
 
 		inline void init() {
@@ -159,18 +152,17 @@ namespace scenes {
 							//also possible
 							// - GL_DEPTH_BUFFER BIT
 							// - GL_STENCIL_BUFFER_BIT
-			curr_mesh.draw(curr_shader.program());
+			curr_mesh.draw();
 		}
 	};
 
 
 	struct triangle_color_varying {
 		mesh_b curr_mesh;
-		shader_b curr_shader;
 
 		triangle_color_varying() {
-			curr_mesh = meshes::single_triangle();
-			curr_shader = shaders::color_through_uniforms();
+			shader_b temp_shader = shaders::color_through_uniforms();
+			curr_mesh = meshes::single_triangle(temp_shader);
 		}
 
 		inline void init() {
@@ -185,27 +177,20 @@ namespace scenes {
 							// - GL_DEPTH_BUFFER BIT
 							// - GL_STENCIL_BUFFER_BIT
 							
-			float greeValue = (sin(time) / 2.0f) + 0.5f;	//the color to set the triangle to
-			int vertexColorLocation = glGetUniformLocation(curr_shader.program(), "ourColor");	//getting the uniform variable defined in the shader code
+			float greenValue = (sin(time) / 2.0f) + 0.5f;	//the color to set the triangle to
+	
+			curr_mesh.get_shader().set_uniform_vec4("ourColor", 0.0f, greenValue, 0.0f, 1.0f);
 
-			if (vertexColorLocation == -1) {	//the uniform could not be found
-				std::cerr << "could not find uniform ourColor" << std::endl;
-			}
-
-			glUseProgram(curr_shader.program());
-			glUniform4f(vertexColorLocation, 0.0f, greeValue, 0.0f, 1.0f);		//setting the color value
-
-			curr_mesh.draw(curr_shader.program());
+			curr_mesh.draw();
 		}
 	};
 
 	struct colourful_triangle {
 		mesh_bc curr_mesh;
-		shader_b curr_shader;
 
 		colourful_triangle() {
-			curr_mesh = meshes::colourful_triangle();
-			curr_shader = shaders::vertex_colors();
+			shader_c temp_shader = shaders::vertex_colors();
+			curr_mesh = meshes::colourful_triangle(temp_shader);
 		}
 
 		inline void init() {
@@ -219,6 +204,8 @@ namespace scenes {
 							//also possible
 							// - GL_DEPTH_BUFFER BIT
 							// - GL_STENCIL_BUFFER_BIT
-			curr_mesh.draw(curr_shader.program());
+			curr_mesh.draw();
 		}
-	};};
+	};
+
+};	//end namespace
