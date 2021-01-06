@@ -57,7 +57,7 @@ int main() {
 
 
 
-	scenes::colourful_triangle curr_scene;
+	scenes::rectangle curr_scene;
 	curr_scene.init();
 
 

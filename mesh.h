@@ -89,45 +89,8 @@ struct mesh_i : public mesh_b {
 
 
 	void init(GLenum usage_v = GL_STATIC_DRAW, GLenum usage_i = GL_STATIC_DRAW) {
-		//usage_v is the usage for the vertices
-		//usage_i is the usage of the indices
+		mesh_b::init(usage_v);
 
-		//setting Vertex array Object
-		// - stores glVertexAttribPointer (for vertex attribute configurations and vertex buffer objects assocated with the vertex attributes)
-		glGenVertexArrays(1, &VAO);
-
-		//bind the VAO first, then bind and set vertex buffers, then configure vertex attributes
-		glBindVertexArray(VAO);
-
-
-
-
-		//allocating memory and uploading the vertex data
-		unsigned VBO;	//stores the id of the buffer object
-					// - if want more than 1 buffer object, the can be an array of unsigned ints
-					
-		glGenBuffers(1, &VBO);	//Generating the ids
-					// - 1 for 1 object
-					// - the ids are stored in VBO
-		
-		glBindBuffer(GL_ARRAY_BUFFER, VBO);	//specifying the type of the buffer object
-							// in this case it is a vertex buffer so GL_ARRAY_BUFFER
-		
-		//any buffer calls that are made from here on are referencing the bounding buffer (VBO)
-		
-		glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(float), vertices.data(), usage_v);	//copies the vertex data to the buffers memory
-												// - first argument is the type of buffer want to copy into
-												// - second argument is the size of the data in bytes to pass the to the buffer
-												// - third argument is the actual data
-												// - forth argument specifics how to graphics card should manage the supplied data
-												//   -- GL_STREAM_DRAW has the data sent once and used a few times (by the GPU)
-												//   -- Gl_STATIC_DRAW has the data sent once and used many times
-												//   -- GL_DYNAMIC_DRAW has the sent many times (because it is changing) and used many times
-
-		//current have the vertex data stored on the memory of the graphics card in a vertex buffer named VBO
-		
-
-		
 		//allocating memory and uploaing the index data
 		// - very similar to the vertex data
 		unsigned EBO;
@@ -135,14 +98,6 @@ struct mesh_i : public mesh_b {
 		
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned), indices.data(), usage_i);
-
-
-		
-		//linking vertex attributes
-		// - telling opengl how to interpret the vertex data
-		//working with the current bound VBO
-		mesh_shader.attribs(0).set_glVertexAttribPointer();
-		glEnableVertexAttribArray(0);
 	}
 
 
@@ -221,13 +176,5 @@ struct mesh_bc : public mesh_b{
 			glEnableVertexAttribArray(i);
 		}
 
-/*
-		// position attribute
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
-		glEnableVertexAttribArray(0);
-		// color attribute
-		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3* sizeof(float)));
-		glEnableVertexAttribArray(1);
-*/
 	}
 };
