@@ -103,4 +103,32 @@ namespace shaders {
 		return shader_c(vertexShaderSource, fragmentShaderSource);
 	}
 
+
+	inline shader_tc textured_coloured() {	//example of passing info from the vertex shader to the fragment shader
+		//vertex shader code
+		const char *vertexShaderSource = "#version 420 core\n"
+			"layout (location = 0) in vec3 aPos;\n"		//position of vertex
+			"layout (location = 1) in vec3 aColor;\n"	//color of vertex
+			"layout (location = 2) in vec2 aTexCoord;\n"
+			"out vec3 ourColor;\n"
+			"out vec2 TexCoord;\n"
+			"void main(){\n"
+			"   gl_Position = vec4(aPos, 1.0);\n"
+			"   ourColor = aColor;\n"
+			"   TexCoord = vec2(aTexCoord.x, aTexCoord.y);//aTexCoord;\n"
+			"}\0";
+
+		//fragment shader code
+		const char *fragmentShaderSource = "#version 420 core\n"
+			"out vec4 FragColor;\n"
+			"in vec3 ourColor;\n"
+			"in vec2 TexCoord;\n"
+			"layout (binding=0) uniform sampler2D t;\n"
+			"void main(){\n"
+			"   FragColor = texture(t, TexCoord) * vec4(ourColor, 1.0);\n"
+			"}\n\0";
+		
+		return shader_tc(vertexShaderSource, fragmentShaderSource);
+	}
+
 };

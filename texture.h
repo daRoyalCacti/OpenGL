@@ -1,5 +1,6 @@
 #pragma once
 
+#include <glad/glad.h>
 #include "stb_image_ne.h"
 #include <string>
 #include <iostream>
@@ -24,6 +25,14 @@ struct texture_b {
 	unsigned texture;
 	texture_settings t_set = {GL_REPEAT, GL_REPEAT, GL_LINEAR_MIPMAP_NEAREST, GL_LINEAR};
 
+	inline unsigned texture_id() {
+		return texture;
+	}
+
+	inline void bind() {
+		glBindTexture(GL_TEXTURE_2D, texture);
+	}
+
 	texture_b() {}
 
 	texture_b(unsigned char* data, const int w, const int h, const int Chan) : width(w), height(h), nrChannels(Chan) {
@@ -34,15 +43,22 @@ struct texture_b {
 							//texture is 2D so GL_TEXTURE_2D
 
 		//setting texture settings
+		/*
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, t_set.wrap_s);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, t_set.wrap_t);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, t_set.min_filt);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, t_set.mag_filt);
-
+		*/
+		// set the texture wrapping parameters
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	// set texture wrapping to GL_REPEAT (default wrapping method)
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		// set texture filtering parameters
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 
 		//generating the texture
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);	//1 : texture target
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w, h, 0, GL_RGB, GL_UNSIGNED_BYTE, data);	//1 : texture target
 														//	- will generate a texture on the bound texture object at the same target
 														//	  (GL_TEXTURE_1D or GL_TEXTURE_3D will not be affected)
 														//2 : the mipmap level (only for setting mipmaps manually)
@@ -59,9 +75,6 @@ struct texture_b {
 														//9 : actual image data
 		glGenerateMipmap(GL_TEXTURE_2D);	//automatically generating the mipmap textures
 
-		//done with the texture
-		stbi_image_free(data);
-
 	}
 
 	texture_b(unsigned char* data, const int w, const int h, const int Chan, texture_settings set) {
@@ -75,6 +88,8 @@ struct texture_b {
 	}
 
 	texture_b(const std::string file_loc) {
+		stbi_set_flip_vertically_on_load(true);
+
 		int w, h, Chan;
 		unsigned char* data = stbi_load(file_loc.c_str(), &w, &h, &Chan, 0);
 
@@ -83,6 +98,9 @@ struct texture_b {
 		}
 
 		texture_b(data, w, h, Chan);
+
+		//done with the texture
+		stbi_image_free(data);
 	}
 
 };

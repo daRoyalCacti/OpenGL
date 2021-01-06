@@ -45,7 +45,12 @@ struct shader_b {
 	}
 
 	shader_b(const char* vertexShaderSource, const char* fragmentShaderSource, std::vector<vertex_attributes> attrib) {
-		shader_b(vertexShaderSource, fragmentShaderSource);
+		set_shaders(vertexShaderSource, fragmentShaderSource);
+
+		if (attrib.size() != 1) {
+			std::cerr << "shader_c requires attrib to be of size 1" << std::endl;
+		}
+
 		attributes = attrib;
 	}
 
@@ -127,7 +132,7 @@ struct shader_b {
 		}
 
 		glUseProgram(shaderProgram);
-		glUniform1i(Location, (int)value);		//setting the color value
+		glUniform1i(Location, value);		//setting the color value
 	}
 
 	inline void set_uniform_float(const std::string &unif_name, float value) const {
@@ -186,7 +191,39 @@ struct shader_c : public shader_b {
 	}
 
 	shader_c(const char* vertexShaderSource, const char* fragmentShaderSource, std::vector<vertex_attributes> attrib) {
-		shader_c(vertexShaderSource, fragmentShaderSource);
+		set_shaders(vertexShaderSource, fragmentShaderSource);
+
+		if (attrib.size() != 2) {
+			std::cerr << "shader_c requires attrib to be of size 2" << std::endl;
+		}
+
+		attributes = attrib;
+	}
+
+
+};
+
+
+//struct to hold shaders that have textures
+struct shader_tc : public shader_c {
+
+
+	shader_tc() {}
+	shader_tc(const char* vertexShaderSource, const char* fragmentShaderSource) {
+		set_shaders(vertexShaderSource, fragmentShaderSource);
+		attributes = {  vertex_attributes{0, 3, GL_FLOAT, GL_FALSE, 8*sizeof(float), (void*)0}, 
+				vertex_attributes{1, 3, GL_FLOAT, GL_FALSE, 8*sizeof(float), (void*)(3*sizeof(float) )  },
+	       			vertex_attributes{2, 2, GL_FLOAT, GL_FALSE, 8*sizeof(float), (void*)(6*sizeof(float) ) } };
+
+	}
+
+	shader_tc(const char* vertexShaderSource, const char* fragmentShaderSource, std::vector<vertex_attributes> attrib) {
+		set_shaders(vertexShaderSource, fragmentShaderSource);
+
+		if (attrib.size() != 3) {
+			std::cerr << "shader_c requires attrib to be of size 3" << std::endl;
+		}
+
 		attributes = attrib;
 	}
 

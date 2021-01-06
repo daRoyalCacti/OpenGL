@@ -56,8 +56,7 @@ int main() {
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
 
-
-	scenes::colourful_rectangle curr_scene;
+	scenes::textured_rectangle curr_scene;
 	curr_scene.init();
 
 
