@@ -2,6 +2,7 @@
 
 #include "mesh_list.h"
 #include "shader_list.h"
+#include "texture_list.h"
 
 #include <cmath>
 
