@@ -58,6 +58,10 @@ struct shader_b {
 		return attributes[index];
 	}
 
+	inline size_t attribs_size() const {
+		return attributes.size();
+	}
+
 	virtual void set_shaders(const char* vertexShaderSource, const char* fragmentShaderSource) {
 		//compiling the vertex shader
 		unsigned vertexShader = glCreateShader(GL_VERTEX_SHADER);	//assigning an ID to reference the vertex shader

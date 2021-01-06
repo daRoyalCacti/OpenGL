@@ -20,33 +20,6 @@ struct mesh_b {
 	
 
 	void init(GLenum usage = GL_STATIC_DRAW) {
-		bind_vertex_to_vao(usage);	
-
-		
-		//linking vertex attributes
-		// - telling opengl how to interpret the vertex data
-		//working with the current bound VBO
-		mesh_shader.attribs(0).set_glVertexAttribPointer();
-		glEnableVertexAttribArray(0);
-
-	}
-
-	virtual void draw(float time = 0, unsigned long frameCounter = 0, float deltaTime = 0) {
-		glUseProgram(mesh_shader.program());	//activate the shader program
-						//every shader and rendering call after use will use this program object
-		
-		glBindVertexArray(VAO);		//setting the vertex buffer object to draw along with its attribute pointers
-
-		glDrawArrays(GL_TRIANGLES, 0, vertices.size() / 3);	//GL_TRIANGLES because drawing triangles
-							// second argument specifies the starting index of the vertex array to draw
-							// third argument is for how many vertices to draw
-							//  - number of vertices / (coordinates per vertex)
-		
-		glBindVertexArray(0);		//to unbind the Vertex array
-	}
-
-protected:
-	void bind_vertex_to_vao(GLenum usage) {
 		//setting Vertex array Object
 		// - stores glVertexAttribPointer (for vertex attribute configurations and vertex buffer objects assocated with the vertex attributes)
 		glGenVertexArrays(1, &VAO);
@@ -81,6 +54,33 @@ protected:
 
 		//current have the vertex data stored on the memory of the graphics card in a vertex buffer named VBO
 
+		
+		//linking vertex attributes
+		// - telling opengl how to interpret the vertex data
+		//working with the current bound VBO
+
+		for (int i = 0; i < mesh_shader.attribs_size(); i++) {
+			mesh_shader.attribs(i).set_glVertexAttribPointer();
+			glEnableVertexAttribArray(i);
+		}
+
+		//mesh_shader.attribs(0).set_glVertexAttribPointer();
+		//glEnableVertexAttribArray(0);
+
+	}
+
+	virtual void draw(float time = 0, unsigned long frameCounter = 0, float deltaTime = 0) {
+		glUseProgram(mesh_shader.program());	//activate the shader program
+						//every shader and rendering call after use will use this program object
+		
+		glBindVertexArray(VAO);		//setting the vertex buffer object to draw along with its attribute pointers
+
+		glDrawArrays(GL_TRIANGLES, 0, vertices.size() / 3);	//GL_TRIANGLES because drawing triangles
+							// second argument specifies the starting index of the vertex array to draw
+							// third argument is for how many vertices to draw
+							//  - number of vertices / (coordinates per vertex)
+		
+		glBindVertexArray(0);		//to unbind the Vertex array
 	}
 };
 
@@ -134,22 +134,7 @@ struct mesh_bc : public mesh_b{
 		vertices = v;
 		mesh_shader = s;
 	}
-	
-	void init(GLenum usage = GL_STATIC_DRAW) {
-		bind_vertex_to_vao(usage);
-		
-		//linking vertex attributes
-		// - telling opengl how to interpret the vertex data
-		//working with the current bound VBO
 
-		for (int i = 0; i < 2; i++) {
-			//i = 0 -> position data
-			//i = 1 -> color data
-			mesh_shader.attribs(i).set_glVertexAttribPointer();
-			glEnableVertexAttribArray(i);
-		}
-
-	}
 };
 
 
