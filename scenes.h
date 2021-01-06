@@ -209,4 +209,30 @@ namespace scenes {
 		}
 	};
 
+
+	
+	struct colourful_rectangle {
+		mesh_ic curr_mesh;
+
+		colourful_rectangle() {
+			shader_c temp_shader = shaders::vertex_colors();
+			curr_mesh = meshes::colourful_rectangle(temp_shader);
+		}
+
+		inline void init() {
+			curr_mesh.init();
+		}
+
+		inline void draw(float time, unsigned long frameCounter, float deltaTime) {
+			//clearing the screen (so don't see the results from the previous  frame)
+			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);	//setting the clear color
+			glClear(GL_COLOR_BUFFER_BIT);	//want to clear the color buffer
+							//also possible
+							// - GL_DEPTH_BUFFER BIT
+							// - GL_STENCIL_BUFFER_BIT
+			curr_mesh.draw();
+		}
+	};
+	
+
 };	//end namespace
