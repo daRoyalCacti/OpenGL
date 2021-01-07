@@ -35,7 +35,7 @@ struct vertex_attributes {
 
 
 
-const char* shader_from_file(const std::string file) {
+std::string shader_from_file(const std::string file) {
 	std::string code;
 	std::ifstream shaderFile;
 
@@ -55,7 +55,8 @@ const char* shader_from_file(const std::string file) {
 	} catch (const std::ifstream::failure& e) {
 		std::cerr << "Failed to read shader file " << file << std::endl;
 	}
-	return code.c_str();
+
+	return code;
 }
 
 
@@ -96,6 +97,7 @@ struct shader_b {
 	}
 
 	virtual void set_shaders(const char* vertexShaderSource, const char* fragmentShaderSource) {
+
 		//compiling the vertex shader
 		unsigned vertexShader = glCreateShader(GL_VERTEX_SHADER);	//assigning an ID to reference the vertex shader
 										//GL_VERTEX_SHADER because want to create a vertexShader
