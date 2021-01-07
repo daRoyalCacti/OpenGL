@@ -123,7 +123,7 @@ namespace shaders {
 			"out vec4 FragColor;\n"
 			"in vec3 ourColor;\n"
 			"in vec2 TexCoord;\n"
-			"layout (binding=0) uniform sampler2D t;\n"
+			"uniform sampler2D t;\n"
 			"void main(){\n"
 			"   FragColor = texture(t, TexCoord) * vec4(ourColor, 1.0);\n"
 			"}\n\0";

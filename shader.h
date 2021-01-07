@@ -4,6 +4,9 @@
 
 #include "errors.h"
 #include <vector>
+#include <string>
+#include <fstream>
+#include <sstream>
 
 struct vertex_attributes {
 	GLuint attribute;
@@ -29,6 +32,31 @@ struct vertex_attributes {
 												// - requires the weird cast to a void*
 	}
 };
+
+
+
+const char* shader_from_file(const std::string file) {
+	std::string code;
+	std::ifstream shaderFile;
+
+	//ensure ifstream objects can throw exceptions
+	shaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
+
+	//try to open file
+	try {
+		std::stringstream shaderStream;
+		shaderFile.open(file);
+		//read file's buffer constents into streams
+		shaderStream << shaderFile.rdbuf();
+		//close the file
+		shaderFile.close();
+		//convert stream into string
+		code = shaderStream.str();
+	} catch (const std::ifstream::failure& e) {
+		std::cerr << "Failed to read shader file " << file << std::endl;
+	}
+	return code.c_str();
+}
 
 
 
