@@ -13,7 +13,6 @@
 #include "scenes.h"
 #include "debug.h"
 
-//test
 
 
 int main() {
