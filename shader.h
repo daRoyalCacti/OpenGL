@@ -276,7 +276,7 @@ struct shader_t : public shader_b {
 	shader_t(const char* vertexShaderSource, const char* fragmentShaderSource, std::vector<vertex_attributes> attrib) {
 		set_shaders(vertexShaderSource, fragmentShaderSource);
 
-		if (attrib.size() != 3) {
+		if (attrib.size() != 2) {
 			std::cerr << "shader_c requires attrib to be of size 2" << std::endl;
 		}
 

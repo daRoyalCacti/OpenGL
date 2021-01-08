@@ -21,24 +21,31 @@ struct texture_settings  {
 
 
 struct texture_b {
-	unsigned texture;
+	unsigned texture_z = 0;
 	texture_settings t_set = {GL_REPEAT, GL_REPEAT, GL_LINEAR_MIPMAP_NEAREST, GL_LINEAR};
 
-	inline unsigned texture_id() {
-		return texture;
+	inline unsigned id() {
+		return texture_z;
 	}
 
 	inline void bind() {
-		glBindTexture(GL_TEXTURE_2D, texture);
+		glBindTexture(GL_TEXTURE_2D, texture_z);
 	}
+
+	/*texture_b& operator=(const texture_b& one) {
+		std::cout << "equals" << std::endl;
+		std::cout << one.texture << " " << texture << std::endl;
+		texture = one.texture;
+		return *this;
+	}*/	
 
 	texture_b() {}
 
-	texture_b(unsigned char* &data, const int &w, const int &h, const int &Chan) {
-		glGenTextures(1, &texture);	//generating the id to reference the texture
+	void init(unsigned char* &data, const int &w, const int &h, const int &Chan) {
+		glGenTextures(1, &texture_z);	//generating the id to reference the texture
 						//1 because only want 1 texture
 
-		glBindTexture(GL_TEXTURE_2D, texture);	//binding the texture so so any subsequent texture commands refer to this texture
+		glBindTexture(GL_TEXTURE_2D, texture_z);	//binding the texture so so any subsequent texture commands refer to this texture
 							//texture is 2D so GL_TEXTURE_2D
 
 		GLenum format;
@@ -54,7 +61,7 @@ struct texture_b {
 
 
 		//generating the texture
-		glTexImage2D(GL_TEXTURE_2D, 0, format, w, h, 0, format, GL_UNSIGNED_BYTE, data);	//1 : texture target
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w, h, 0, format, GL_UNSIGNED_BYTE, data);	//1 : texture target
 														//	- will generate a texture on the bound texture object at the same target
 														//	  (GL_TEXTURE_1D or GL_TEXTURE_3D will not be affected)
 														//2 : the mipmap level (only for setting mipmaps manually)
@@ -77,15 +84,17 @@ struct texture_b {
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, t_set.wrap_t);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, t_set.min_filt);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, t_set.mag_filt);
-	
+
 	}
 
 	texture_b(unsigned char* &data, const int &w, const int &h, const int &Chan, texture_settings set) {
+		std::cout << "using untested constructor" << std::endl;
 		t_set = set;
-		texture_b(data, w, h, Chan);
+		init(data, w, h, Chan);
 	}
 
 	texture_b(const std::string file, texture_settings set) {
+		std::cout << "using untested constructor" << std::endl;
 		t_set = set;
 		texture_b(file.c_str());
 	}
@@ -100,7 +109,7 @@ struct texture_b {
 			std::cerr << "Failed to load texture " << file_loc << std::endl;
 		}
 
-		texture_b(data, w, h, Chan);
+		init(data, w, h, Chan);
 
 		//done with the texture
 		stbi_image_free(data);

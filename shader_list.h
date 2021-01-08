@@ -83,5 +83,9 @@ namespace shaders {
 		return shader_t(shader_from_file("../shaders/textured.vert").c_str(), shader_from_file("../shaders/textured.frag").c_str());
 	}
 
+	inline shader_t two_textures() {
+		return shader_t(shader_from_file("../shaders/2_textures.vert").c_str(), shader_from_file("../shaders/2_textures.frag").c_str());
+	}
+
 
 };

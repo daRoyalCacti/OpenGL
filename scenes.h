@@ -343,4 +343,37 @@ namespace scenes {
 		}
 	};
 
+
+
+	struct textured_rectangle2 {
+		mesh_2it curr_mesh;
+
+		textured_rectangle2() {
+			texture_b temp_tex1 = textures::face();
+			shader_t temp_shader = shaders::two_textures();
+			texture_b temp_tex2 = textures::container();
+
+
+			curr_mesh = meshes::textured_rectangle2(temp_tex1, temp_tex2, temp_shader);
+		}
+
+		inline void init() {
+			curr_mesh.init();			
+			curr_mesh.get_shader().set_uniform_int("texture1", 0);
+			curr_mesh.get_shader().set_uniform_int("texture2", 1);
+			curr_mesh.get_shader().set_uniform_float("mix_per", 0.0);
+		}
+
+		inline void draw(float time, unsigned long frameCounter, float deltaTime) {
+			//clearing the screen (so don't see the results from the previous  frame)
+			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);	//setting the clear color
+			glClear(GL_COLOR_BUFFER_BIT);	//want to clear the color buffer
+							//also possible
+							// - GL_DEPTH_BUFFER BIT
+							// - GL_STENCIL_BUFFER_BIT
+
+			curr_mesh.draw();
+		}
+	};
+
 };	//end namespace
