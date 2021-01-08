@@ -209,14 +209,17 @@ struct mesh_btc : public mesh_bc {	//mesh with texture and colours
 
 
 struct mesh_itc : public mesh_btc {	//mesh with texture
+
+	unsigned *a,b;	//need these 2 for some reason???
 	std::vector<unsigned> indices;
 
 	mesh_itc() {};
-	mesh_itc(const std::vector<float> &v, const std::vector<unsigned> &i, texture_b &t, shader_tc &s) {
+	mesh_itc(const std::vector<float> v, std::vector<unsigned> i, texture_b t, shader_tc s) {
 		vertices = v;
-		indices = i;
 		tex = t;
 		mesh_shader = s;
+
+		indices = i;
 	}
 	
 	void init(GLenum usage_v = GL_STATIC_DRAW, GLenum usage_i = GL_STATIC_DRAW) {
@@ -229,10 +232,12 @@ struct mesh_itc : public mesh_btc {	//mesh with texture
 		
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned), indices.data(), usage_i);
+
 	}
 
 
 	virtual void draw(float time = 0, unsigned long frameCounter = 0, float deltaTime = 0) {
+
 		glUseProgram(mesh_shader.program());	//activate the shader program
 						//every shader and rendering call after use will use this program object
 		
@@ -240,7 +245,7 @@ struct mesh_itc : public mesh_btc {	//mesh with texture
 		tex.bind();
 
 		glBindVertexArray(VAO);		//setting the vertex buffer object to draw along with its attribute pointers
-
+		
 		glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);	//GL_TRIANGLES because drawing triangles
 									// second argument is the number of elements to draw
 									// third argument is the type of the indices
