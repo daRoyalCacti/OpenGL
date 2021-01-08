@@ -255,3 +255,87 @@ struct mesh_itc : public mesh_btc {	//mesh with texture
 	}
 
 };
+
+
+
+
+
+
+struct mesh_bt : public mesh_b {	//mesh with texture and colours
+	texture_b tex;
+
+	mesh_bt() {};
+	mesh_bt(const std::vector<float> v, texture_b t, shader_t s) {
+		vertices = v;
+		mesh_shader = s;
+		tex = t;
+	}
+
+	virtual void draw(float time = 0, unsigned long frameCounter = 0, float deltaTime = 0) {
+		glUseProgram(mesh_shader.program());	//activate the shader program
+						//every shader and rendering call after use will use this program object
+		
+		glActiveTexture(GL_TEXTURE0);	//activate the texture before binding it
+		tex.bind();
+
+		glBindVertexArray(VAO);		//setting the vertex buffer object to draw along with its attribute pointers
+
+		glDrawArrays(GL_TRIANGLES, 0, vertices.size() / 3);	//GL_TRIANGLES because drawing triangles
+							// second argument specifies the starting index of the vertex array to draw
+							// third argument is for how many vertices to draw
+							//  - number of vertices / (coordinates per vertex)
+		
+		glBindVertexArray(0);		//to unbind the Vertex array
+	}
+};
+
+
+
+struct mesh_it : public mesh_bt {	//mesh with texture
+
+	unsigned *a,b;	//need these 2 for some reason???
+	std::vector<unsigned> indices;
+
+	mesh_it() {};
+	mesh_it(const std::vector<float> v, std::vector<unsigned> i, texture_b t, shader_t s) {
+		vertices = v;
+		tex = t;
+		mesh_shader = s;
+
+		indices = i;
+	}
+	
+	void init(GLenum usage_v = GL_STATIC_DRAW, GLenum usage_i = GL_STATIC_DRAW) {
+		mesh_bt::init(usage_v);
+
+		//allocating memory and uploaing the index data
+		// - very similar to the vertex data
+		unsigned EBO;
+		glGenBuffers(1, &EBO);
+		
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned), indices.data(), usage_i);
+
+	}
+
+
+	virtual void draw(float time = 0, unsigned long frameCounter = 0, float deltaTime = 0) {
+
+		glUseProgram(mesh_shader.program());	//activate the shader program
+						//every shader and rendering call after use will use this program object
+		
+		glActiveTexture(GL_TEXTURE0);	//activate the texture before binding it
+		tex.bind();
+
+		glBindVertexArray(VAO);		//setting the vertex buffer object to draw along with its attribute pointers
+		
+		glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);	//GL_TRIANGLES because drawing triangles
+									// second argument is the number of elements to draw
+									// third argument is the type of the indices
+									// last argument is an offset in the EBO
+		
+		glBindVertexArray(0);		//to unbind the Vertex array
+	}
+
+};
+

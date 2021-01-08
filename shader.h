@@ -234,7 +234,7 @@ struct shader_c : public shader_b {
 };
 
 
-//struct to hold shaders that have textures
+//struct to hold shaders that have textures and vertex colours
 struct shader_tc : public shader_c {
 
 
@@ -252,6 +252,32 @@ struct shader_tc : public shader_c {
 
 		if (attrib.size() != 3) {
 			std::cerr << "shader_c requires attrib to be of size 3" << std::endl;
+		}
+
+		attributes = attrib;
+	}
+
+
+};
+
+
+//struct to hold shaders that have textures
+struct shader_t : public shader_b {
+
+
+	shader_t() {}
+	shader_t(const char* vertexShaderSource, const char* fragmentShaderSource) {
+		set_shaders(vertexShaderSource, fragmentShaderSource);
+		attributes = {  vertex_attributes{0, 3, GL_FLOAT, GL_FALSE, 5*sizeof(float), (void*)0}, 
+	       			vertex_attributes{1, 2, GL_FLOAT, GL_FALSE, 5*sizeof(float), (void*)(3*sizeof(float) ) } };
+
+	}
+
+	shader_t(const char* vertexShaderSource, const char* fragmentShaderSource, std::vector<vertex_attributes> attrib) {
+		set_shaders(vertexShaderSource, fragmentShaderSource);
+
+		if (attrib.size() != 3) {
+			std::cerr << "shader_c requires attrib to be of size 2" << std::endl;
 		}
 
 		attributes = attrib;

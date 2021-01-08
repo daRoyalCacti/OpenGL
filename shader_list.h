@@ -78,4 +78,10 @@ namespace shaders {
 		return shader_tc(shader_from_file("../shaders/textured_coloured.vert").c_str(), shader_from_file("../shaders/textured_coloured.frag").c_str());
 	}
 
+	inline shader_t textured() {	//example of passing info from the vertex shader to the fragment shader
+	
+		return shader_t(shader_from_file("../shaders/textured.vert").c_str(), shader_from_file("../shaders/textured.frag").c_str());
+	}
+
+
 };

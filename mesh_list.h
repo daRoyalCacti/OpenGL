@@ -95,6 +95,17 @@ namespace meshes {
 
 	}
 
+	inline mesh_btc textured_colourful_triangle(texture_b tex, shader_tc shad) {
+		std::vector<float> vertices = {
+			 // positions          // colors           // texture coords
+			  0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // top right
+			  0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // bottom right
+			 -0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,   // bottom left
+		};
+
+
+		return mesh_btc(vertices, tex, shad);
+	}
 
 	inline mesh_itc textured_colourful_rectangle(texture_b &tex, shader_tc shad) {
 		std::vector<float> vertices = {
@@ -114,16 +125,37 @@ namespace meshes {
 	}
 
 
-	inline mesh_btc textured_colourful_triangle(texture_b tex, shader_tc shad) {
+	inline mesh_bt textured_triangle(texture_b tex, shader_t shad) {
 		std::vector<float> vertices = {
-			 // positions          // colors           // texture coords
-			  0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // top right
-			  0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // bottom right
-			 -0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,   // bottom left
+			 // positions          // texture coords
+			  0.5f,  0.5f, 0.0f,   1.0f, 1.0f,   // top right
+			  0.5f, -0.5f, 0.0f,   1.0f, 0.0f,   // bottom right
+			 -0.5f, -0.5f, 0.0f,   0.0f, 0.0f,   // bottom left
 		};
 
 
-		return mesh_btc(vertices, tex, shad);
+		return mesh_bt(vertices, tex, shad);
 	}
+
+
+	inline mesh_it textured_rectangle(texture_b &tex, shader_t shad) {
+		std::vector<float> vertices = {
+			 // positions          // texture coords
+			  0.5f,  0.5f, 0.0f,   1.0f, 1.0f,   // top right
+			  0.5f, -0.5f, 0.0f,   1.0f, 0.0f,   // bottom right
+			 -0.5f, -0.5f, 0.0f,   0.0f, 0.0f,   // bottom left
+			 -0.5f,  0.5f, 0.0f,   0.0f, 1.0f    // top left	
+		};
+
+		std::vector<unsigned> indices = {  // note that we start from 0!
+			0, 1, 3,   // first triangle
+			1, 2, 3    // second triangle
+		};
+
+		return mesh_it(vertices, indices, tex, shad);
+	}
+
+
+
 
 };

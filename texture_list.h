@@ -5,7 +5,10 @@
 namespace textures {
 	inline texture_b container() {
 		return texture_b("../textures/container.jpg");
-		//return texture_b("../textures/test.ppm");
+	}
+
+	inline texture_b face() {
+		return texture_b("../textures/awesomeface.png");
 	}
 
 };

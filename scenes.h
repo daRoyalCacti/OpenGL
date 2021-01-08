@@ -235,10 +235,10 @@ namespace scenes {
 	};
 
 
-	struct textured_rectangle {
+	struct textured_colourful_rectangle {
 		mesh_itc curr_mesh;
 
-		textured_rectangle() {
+		textured_colourful_rectangle() {
 			shader_tc temp_shader = shaders::textured_coloured();
 			texture_b temp_tex = textures::container();
 			curr_mesh = meshes::textured_colourful_rectangle(temp_tex, temp_shader);
@@ -262,13 +262,68 @@ namespace scenes {
 	};
 	
 
-	struct textured_triangle {
+	struct textured_colourful_triangle {
 		mesh_btc curr_mesh;
 
-		textured_triangle() {
+		textured_colourful_triangle() {
 			shader_tc temp_shader = shaders::textured_coloured();
 			texture_b temp_tex = textures::container();
 			curr_mesh = meshes::textured_colourful_triangle(temp_tex, temp_shader);
+		}
+
+		inline void init() {
+			curr_mesh.init();			
+			curr_mesh.get_shader().set_uniform_int("t", 0);
+		}
+
+		inline void draw(float time, unsigned long frameCounter, float deltaTime) {
+			//clearing the screen (so don't see the results from the previous  frame)
+			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);	//setting the clear color
+			glClear(GL_COLOR_BUFFER_BIT);	//want to clear the color buffer
+							//also possible
+							// - GL_DEPTH_BUFFER BIT
+							// - GL_STENCIL_BUFFER_BIT
+
+			curr_mesh.draw();
+		}
+	};
+
+
+	
+	struct textured_rectangle {
+		mesh_it curr_mesh;
+
+		textured_rectangle() {
+			shader_t temp_shader = shaders::textured();
+			texture_b temp_tex = textures::container();
+			curr_mesh = meshes::textured_rectangle(temp_tex, temp_shader);
+		}
+
+		inline void init() {
+			curr_mesh.init();			
+			curr_mesh.get_shader().set_uniform_int("t", 0);
+		}
+
+		inline void draw(float time, unsigned long frameCounter, float deltaTime) {
+			//clearing the screen (so don't see the results from the previous  frame)
+			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);	//setting the clear color
+			glClear(GL_COLOR_BUFFER_BIT);	//want to clear the color buffer
+							//also possible
+							// - GL_DEPTH_BUFFER BIT
+							// - GL_STENCIL_BUFFER_BIT
+
+			curr_mesh.draw();
+		}
+	};
+	
+
+	struct textured_triangle {
+		mesh_bt curr_mesh;
+
+		textured_triangle() {
+			shader_t temp_shader = shaders::textured();
+			texture_b temp_tex = textures::container();
+			curr_mesh = meshes::textured_triangle(temp_tex, temp_shader);
 		}
 
 		inline void init() {
