@@ -8,6 +8,8 @@
 #include <fstream>
 #include <sstream>
 
+#include  <glm/glm.hpp>
+
 struct vertex_attributes {
 	GLuint attribute;
 	GLint size;
