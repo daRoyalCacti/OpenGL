@@ -77,7 +77,7 @@ struct shader_b {
 		set_shaders(vertexShaderSource, fragmentShaderSource);
 
 		if (attrib.size() != 1) {
-			std::cerr << "shader_c requires attrib to be of size 1" << std::endl;
+			std::cerr << "shader_b requires attrib to be of size 1" << std::endl;
 		}
 
 		attributes = attrib;
@@ -102,7 +102,7 @@ struct shader_b {
 		unsigned vertexShader = glCreateShader(GL_VERTEX_SHADER);	//assigning an ID to reference the vertex shader
 										//GL_VERTEX_SHADER because want to create a vertexShader
 		
-		glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);	//attaching the shader source code to the sharder object
+		glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);	//attaching the shader source code to the shader object
 										// - first argument is the shader object to compile to
 										// - second argument specifies how many strings the source code is (only 1 here)
 										// - third argument is the actual source code

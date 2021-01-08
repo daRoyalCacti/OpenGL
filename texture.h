@@ -21,7 +21,6 @@ struct texture_settings  {
 
 
 struct texture_b {
-	int width, height, nrChannels;
 	unsigned texture;
 	texture_settings t_set = {GL_REPEAT, GL_REPEAT, GL_LINEAR_MIPMAP_NEAREST, GL_LINEAR};
 
@@ -35,30 +34,27 @@ struct texture_b {
 
 	texture_b() {}
 
-	texture_b(unsigned char* data, const int w, const int h, const int Chan) : width(w), height(h), nrChannels(Chan) {
+	texture_b(unsigned char* &data, const int &w, const int &h, const int &Chan) {
 		glGenTextures(1, &texture);	//generating the id to reference the texture
 						//1 because only want 1 texture
 
 		glBindTexture(GL_TEXTURE_2D, texture);	//binding the texture so so any subsequent texture commands refer to this texture
 							//texture is 2D so GL_TEXTURE_2D
 
-		//setting texture settings
-		/*
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, t_set.wrap_s);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, t_set.wrap_t);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, t_set.min_filt);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, t_set.mag_filt);
-		*/
-		// set the texture wrapping parameters
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	// set texture wrapping to GL_REPEAT (default wrapping method)
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-		// set texture filtering parameters
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		GLenum format;
+		if(Chan == 1) {
+			format = GL_RED;
+		} else if (Chan == 3) {
+			format = GL_RGB;
+		} else if (Chan == 4) {
+			format = GL_RGBA;
+		} else {
+			std::cerr << "image has a strange number of channels" << std::endl;
+		}
 
 
 		//generating the texture
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w, h, 0, GL_RGB, GL_UNSIGNED_BYTE, data);	//1 : texture target
+		glTexImage2D(GL_TEXTURE_2D, 0, format, w, h, 0, format, GL_UNSIGNED_BYTE, data);	//1 : texture target
 														//	- will generate a texture on the bound texture object at the same target
 														//	  (GL_TEXTURE_1D or GL_TEXTURE_3D will not be affected)
 														//2 : the mipmap level (only for setting mipmaps manually)
@@ -75,9 +71,16 @@ struct texture_b {
 														//9 : actual image data
 		glGenerateMipmap(GL_TEXTURE_2D);	//automatically generating the mipmap textures
 
+
+		//setting texture settings
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, t_set.wrap_s);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, t_set.wrap_t);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, t_set.min_filt);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, t_set.mag_filt);
+	
 	}
 
-	texture_b(unsigned char* data, const int w, const int h, const int Chan, texture_settings set) {
+	texture_b(unsigned char* &data, const int &w, const int &h, const int &Chan, texture_settings set) {
 		t_set = set;
 		texture_b(data, w, h, Chan);
 	}

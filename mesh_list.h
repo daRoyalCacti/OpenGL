@@ -96,7 +96,7 @@ namespace meshes {
 	}
 
 
-	inline mesh_itc textured_colourful_rectangle(texture_b tex, shader_tc shad) {
+	inline mesh_itc textured_colourful_rectangle(texture_b &tex, shader_tc shad) {
 		std::vector<float> vertices = {
 			 // positions          // colors           // texture coords
 			  0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // top right
@@ -111,6 +111,19 @@ namespace meshes {
 		};
 
 		return mesh_itc(vertices, indices, tex, shad);
+	}
+
+
+	inline mesh_btc textured_colourful_triangle(texture_b tex, shader_tc shad) {
+		std::vector<float> vertices = {
+			 // positions          // colors           // texture coords
+			  0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // top right
+			  0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // bottom right
+			 -0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,   // bottom left
+		};
+
+
+		return mesh_btc(vertices, tex, shad);
 	}
 
 };

@@ -61,12 +61,10 @@ struct mesh_b {
 		//working with the current bound VBO
 
 		for (int i = 0; i < mesh_shader.attribs_size(); i++) {
-			mesh_shader.attribs(i).set_glVertexAttribPointer();
 			glEnableVertexAttribArray(i);
+			mesh_shader.attribs(i).set_glVertexAttribPointer();
 		}
 
-		//mesh_shader.attribs(0).set_glVertexAttribPointer();
-		//glEnableVertexAttribArray(0);
 
 	}
 
@@ -214,7 +212,7 @@ struct mesh_itc : public mesh_btc {	//mesh with texture
 	std::vector<unsigned> indices;
 
 	mesh_itc() {};
-	mesh_itc(const std::vector<float> v, const std::vector<unsigned> i, texture_b t, shader_tc s) {
+	mesh_itc(const std::vector<float> &v, const std::vector<unsigned> &i, texture_b &t, shader_tc &s) {
 		vertices = v;
 		indices = i;
 		tex = t;
@@ -235,13 +233,11 @@ struct mesh_itc : public mesh_btc {	//mesh with texture
 
 
 	virtual void draw(float time = 0, unsigned long frameCounter = 0, float deltaTime = 0) {
-		glActiveTexture(GL_TEXTURE0);	//activate the texture before binding it
-		glBindTexture(GL_TEXTURE_2D, tex.texture_id() );
-		//tex.bind();
-
 		glUseProgram(mesh_shader.program());	//activate the shader program
 						//every shader and rendering call after use will use this program object
 		
+		glActiveTexture(GL_TEXTURE0);	//activate the texture before binding it
+		tex.bind();
 
 		glBindVertexArray(VAO);		//setting the vertex buffer object to draw along with its attribute pointers
 
