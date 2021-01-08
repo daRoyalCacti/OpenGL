@@ -10,5 +10,7 @@ uniform float mix_per;
 
 void main()
 {
-	FragColor = mix( texture(texture1, TexCoord), texture(texture2, TexCoord), mix_per);
+	//the last argument of mix should be an alpha mask source -- not doing it properly here
+	//https://www.khronos.org/opengl/wiki/Multitexture_with_GLSL
+	FragColor = mix( texture(texture1, TexCoord), texture(texture2, TexCoord), texture(texture2, TexCoord).a*mix_per);
 }

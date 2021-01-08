@@ -349,9 +349,10 @@ namespace scenes {
 		mesh_2it curr_mesh;
 
 		textured_rectangle2() {
-			texture_b temp_tex1 = textures::face();
 			shader_t temp_shader = shaders::two_textures();
-			texture_b temp_tex2 = textures::container();
+
+			texture_b temp_tex1 = textures::container();
+			texture_b temp_tex2 = textures::face();
 
 
 			curr_mesh = meshes::textured_rectangle2(temp_tex1, temp_tex2, temp_shader);
@@ -361,7 +362,7 @@ namespace scenes {
 			curr_mesh.init();			
 			curr_mesh.get_shader().set_uniform_int("texture1", 0);
 			curr_mesh.get_shader().set_uniform_int("texture2", 1);
-			curr_mesh.get_shader().set_uniform_float("mix_per", 0.0);
+			curr_mesh.get_shader().set_uniform_float("mix_per", 0.2);
 		}
 
 		inline void draw(float time, unsigned long frameCounter, float deltaTime) {

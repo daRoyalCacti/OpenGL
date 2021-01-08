@@ -32,12 +32,6 @@ struct texture_b {
 		glBindTexture(GL_TEXTURE_2D, texture_z);
 	}
 
-	/*texture_b& operator=(const texture_b& one) {
-		std::cout << "equals" << std::endl;
-		std::cout << one.texture << " " << texture << std::endl;
-		texture = one.texture;
-		return *this;
-	}*/	
 
 	texture_b() {}
 
@@ -61,7 +55,7 @@ struct texture_b {
 
 
 		//generating the texture
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w, h, 0, format, GL_UNSIGNED_BYTE, data);	//1 : texture target
+		glTexImage2D(GL_TEXTURE_2D, 0, format, w, h, 0, format, GL_UNSIGNED_BYTE, data);	//1 : texture target
 														//	- will generate a texture on the bound texture object at the same target
 														//	  (GL_TEXTURE_1D or GL_TEXTURE_3D will not be affected)
 														//2 : the mipmap level (only for setting mipmaps manually)
@@ -72,7 +66,6 @@ struct texture_b {
 														//5 : height of texture
 														//6 : always 0 (only there for legacy stuff)
 														//7 : format of the source image
-														//	- currently RGB
 														//8 : datatype of the source image
 														//	- stored as unsigned bytes
 														//9 : actual image data
