@@ -19,6 +19,10 @@ namespace settings {
 	constexpr GLenum polygon_fill_mode = GL_FILL;	//possibilities:
 							// - GL_LINE for wireframe
 							// - GL_FILL for regular filled triangles
+	
+	constexpr float near_plane = 0.1f;
+	constexpr float far_plane = 100.0f;
+	constexpr float fov = 45.0f;
 
 	//derived from other settings
 	//==========================================

@@ -56,8 +56,10 @@ int main() {
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
 
-	scenes::transformed_colored_rectangle curr_scene;
+	scenes::transformed_textured_cube curr_scene;
 	curr_scene.init();
+
+	glEnable(GL_DEPTH_TEST);	//turning on the depth buffer
 
 
 
@@ -79,6 +81,8 @@ int main() {
 
 		processInput(window);		//processing keyboard and mouse inputs
 
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	//want to clear the color buffer and the depth buffer
+							//also possible : GL_STENCIL_BUFFER_BIT
 
 
 		curr_scene.draw(currTime, frameCounter, deltaTime);

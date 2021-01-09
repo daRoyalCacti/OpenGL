@@ -3,6 +3,7 @@
 #include "mesh_list.h"
 #include "shader_list.h"
 #include "texture_list.h"
+#include "camera.h"
 
 #include <cmath>
 
@@ -28,10 +29,7 @@ namespace scenes {
 		inline void draw(float time, unsigned long frameCounter, float deltaTime) {
 			//clearing the screen (so don't see the results from the previous  frame)
 			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);	//setting the clear color
-			glClear(GL_COLOR_BUFFER_BIT);	//want to clear the color buffer
-							//also possible
-							// - GL_DEPTH_BUFFER BIT
-							// - GL_STENCIL_BUFFER_BIT
+	
 			curr_mesh.draw();
 		}
 	};
@@ -52,10 +50,7 @@ namespace scenes {
 		inline void draw(float time, unsigned long frameCounter, float deltaTime) {
 			//clearing the screen (so don't see the results from the previous  frame)
 			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);	//setting the clear color
-			glClear(GL_COLOR_BUFFER_BIT);	//want to clear the color buffer
-							//also possible
-							// - GL_DEPTH_BUFFER BIT
-							// - GL_STENCIL_BUFFER_BIT
+	
 			curr_mesh.draw();
 		}
 	};
@@ -75,10 +70,7 @@ namespace scenes {
 		inline void draw(float time, unsigned long frameCounter, float deltaTime) {
 			//clearing the screen (so don't see the results from the previous  frame)
 			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);	//setting the clear color
-			glClear(GL_COLOR_BUFFER_BIT);	//want to clear the color buffer
-							//also possible
-							// - GL_DEPTH_BUFFER BIT
-							// - GL_STENCIL_BUFFER_BIT
+	
 			curr_mesh.draw();
 		}
 	};
@@ -98,10 +90,7 @@ namespace scenes {
 		inline void draw(float time, unsigned long frameCounter, float deltaTime) {
 			//clearing the screen (so don't see the results from the previous  frame)
 			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);	//setting the clear color
-			glClear(GL_COLOR_BUFFER_BIT);	//want to clear the color buffer
-							//also possible
-							// - GL_DEPTH_BUFFER BIT
-							// - GL_STENCIL_BUFFER_BIT
+
 			curr_mesh.draw();
 		}
 	};
@@ -127,10 +116,7 @@ namespace scenes {
 		inline void draw(float time, unsigned long frameCounter, float deltaTime) {
 			//clearing the screen (so don't see the results from the previous  frame)
 			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);	//setting the clear color
-			glClear(GL_COLOR_BUFFER_BIT);	//want to clear the color buffer
-							//also possible
-							// - GL_DEPTH_BUFFER BIT
-							// - GL_STENCIL_BUFFER_BIT
+	
 			mesh1.draw();
 			mesh2.draw();
 		}
@@ -153,10 +139,7 @@ namespace scenes {
 		inline void draw(float time, unsigned long frameCounter, float deltaTime) {
 			//clearing the screen (so don't see the results from the previous  frame)
 			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);	//setting the clear color
-			glClear(GL_COLOR_BUFFER_BIT);	//want to clear the color buffer
-							//also possible
-							// - GL_DEPTH_BUFFER BIT
-							// - GL_STENCIL_BUFFER_BIT
+
 			curr_mesh.draw();
 		}
 	};
@@ -177,10 +160,7 @@ namespace scenes {
 		inline void draw(float time, unsigned long frameCounter, float deltaTime) {
 			//clearing the screen (so don't see the results from the previous  frame)
 			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);	//setting the clear color
-			glClear(GL_COLOR_BUFFER_BIT);	//want to clear the color buffer
-							//also possible
-							// - GL_DEPTH_BUFFER BIT
-							// - GL_STENCIL_BUFFER_BIT
+
 							
 			float greenValue = (sin(time) / 2.0f) + 0.5f;	//the color to set the triangle to
 	
@@ -205,10 +185,7 @@ namespace scenes {
 		inline void draw(float time, unsigned long frameCounter, float deltaTime) {
 			//clearing the screen (so don't see the results from the previous  frame)
 			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);	//setting the clear color
-			glClear(GL_COLOR_BUFFER_BIT);	//want to clear the color buffer
-							//also possible
-							// - GL_DEPTH_BUFFER BIT
-							// - GL_STENCIL_BUFFER_BIT
+	
 			curr_mesh.draw();
 		}
 	};
@@ -230,10 +207,7 @@ namespace scenes {
 		inline void draw(float time, unsigned long frameCounter, float deltaTime) {
 			//clearing the screen (so don't see the results from the previous  frame)
 			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);	//setting the clear color
-			glClear(GL_COLOR_BUFFER_BIT);	//want to clear the color buffer
-							//also possible
-							// - GL_DEPTH_BUFFER BIT
-							// - GL_STENCIL_BUFFER_BIT
+
 			curr_mesh.draw();
 		}
 	};
@@ -256,10 +230,7 @@ namespace scenes {
 		inline void draw(float time, unsigned long frameCounter, float deltaTime) {
 			//clearing the screen (so don't see the results from the previous  frame)
 			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);	//setting the clear color
-			glClear(GL_COLOR_BUFFER_BIT);	//want to clear the color buffer
-							//also possible
-							// - GL_DEPTH_BUFFER BIT
-							// - GL_STENCIL_BUFFER_BIT
+
 
 			curr_mesh.draw();
 		}
@@ -283,10 +254,7 @@ namespace scenes {
 		inline void draw(float time, unsigned long frameCounter, float deltaTime) {
 			//clearing the screen (so don't see the results from the previous  frame)
 			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);	//setting the clear color
-			glClear(GL_COLOR_BUFFER_BIT);	//want to clear the color buffer
-							//also possible
-							// - GL_DEPTH_BUFFER BIT
-							// - GL_STENCIL_BUFFER_BIT
+	
 
 			curr_mesh.draw();
 		}
@@ -311,10 +279,7 @@ namespace scenes {
 		inline void draw(float time, unsigned long frameCounter, float deltaTime) {
 			//clearing the screen (so don't see the results from the previous  frame)
 			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);	//setting the clear color
-			glClear(GL_COLOR_BUFFER_BIT);	//want to clear the color buffer
-							//also possible
-							// - GL_DEPTH_BUFFER BIT
-							// - GL_STENCIL_BUFFER_BIT
+	
 
 			curr_mesh.draw();
 		}
@@ -338,10 +303,7 @@ namespace scenes {
 		inline void draw(float time, unsigned long frameCounter, float deltaTime) {
 			//clearing the screen (so don't see the results from the previous  frame)
 			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);	//setting the clear color
-			glClear(GL_COLOR_BUFFER_BIT);	//want to clear the color buffer
-							//also possible
-							// - GL_DEPTH_BUFFER BIT
-							// - GL_STENCIL_BUFFER_BIT
+
 
 			curr_mesh.draw();
 		}
@@ -372,10 +334,7 @@ namespace scenes {
 		inline void draw(float time, unsigned long frameCounter, float deltaTime) {
 			//clearing the screen (so don't see the results from the previous  frame)
 			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);	//setting the clear color
-			glClear(GL_COLOR_BUFFER_BIT);	//want to clear the color buffer
-							//also possible
-							// - GL_DEPTH_BUFFER BIT
-							// - GL_STENCIL_BUFFER_BIT
+
 
 			curr_mesh.draw();
 		}
@@ -406,10 +365,7 @@ namespace scenes {
 		inline void draw(float time, unsigned long frameCounter, float deltaTime) {
 			//clearing the screen (so don't see the results from the previous  frame)
 			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);	//setting the clear color
-			glClear(GL_COLOR_BUFFER_BIT);	//want to clear the color buffer
-							//also possible
-							// - GL_DEPTH_BUFFER BIT
-							// - GL_STENCIL_BUFFER_BIT
+
 
 			curr_mesh.draw();
 		}
@@ -433,10 +389,7 @@ namespace scenes {
 		inline void draw(float time, unsigned long frameCounter, float deltaTime) {
 			//clearing the screen (so don't see the results from the previous  frame)
 			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);	//setting the clear color
-			glClear(GL_COLOR_BUFFER_BIT);	//want to clear the color buffer
-							//also possible
-							// - GL_DEPTH_BUFFER BIT
-							// - GL_STENCIL_BUFFER_BIT
+		
 
 			trans = glm::mat4(1.0f);
 			trans = glm::translate(trans, glm::vec3(0.5f, -0.5f, 0.0f) );
@@ -449,5 +402,37 @@ namespace scenes {
 	};
 
 
+	struct transformed_textured_cube {
+		mesh_bt curr_mesh;
+		transformation trans;
+
+		transformed_textured_cube() {
+			shader_t temp_shader = shaders::textured_transformed();
+			texture_b temp_tex = textures::container();
+			curr_mesh = meshes::textured_cube(temp_tex, temp_shader);
+		}
+
+		inline void init() {
+			curr_mesh.init();
+
+			trans.view = glm::translate(trans.view, glm::vec3(0.0f, 0.0f, -3.0f) );	//moving away from the object
+
+			//curr_mesh.get_shader().set_uniform_mat4("transform", temp_transform);
+			curr_mesh.get_shader().set_uniform_int("t", 0);
+		}
+
+		inline void draw(float time, unsigned long frameCounter, float deltaTime) {
+			//clearing the screen (so don't see the results from the previous  frame)
+			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);	//setting the clear color
+
+
+			trans.model = glm::mat4(1.0f);
+			trans.model = glm::rotate(trans.model, time * glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f) );
+
+			curr_mesh.get_shader().set_uniform_mat4("transform", trans.get_matrix());
+
+			curr_mesh.draw();
+		}
+	};
 
 };	//end namespace
