@@ -382,5 +382,72 @@ namespace scenes {
 	};
 
 
+	struct transformed_textured_rectangle {
+		mesh_it curr_mesh;
+
+		transformed_textured_rectangle() {
+			shader_t temp_shader = shaders::textured_transformed();
+			texture_b temp_tex = textures::container();
+			curr_mesh = meshes::textured_rectangle(temp_tex, temp_shader);
+		}
+
+		inline void init() {
+			curr_mesh.init();
+
+			glm::mat4 temp_transform = glm::mat4(1.0f);
+			temp_transform = glm::rotate(temp_transform, glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f) );
+			temp_transform = glm::scale(temp_transform, glm::vec3(0.5f, 0.5f, 0.5f) );
+
+
+			curr_mesh.get_shader().set_uniform_mat4("transform", temp_transform);
+			curr_mesh.get_shader().set_uniform_int("t", 0);
+		}
+
+		inline void draw(float time, unsigned long frameCounter, float deltaTime) {
+			//clearing the screen (so don't see the results from the previous  frame)
+			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);	//setting the clear color
+			glClear(GL_COLOR_BUFFER_BIT);	//want to clear the color buffer
+							//also possible
+							// - GL_DEPTH_BUFFER BIT
+							// - GL_STENCIL_BUFFER_BIT
+
+			curr_mesh.draw();
+		}
+	};
+
+
+	struct transformed_colored_rectangle {
+		mesh_i curr_mesh;
+		glm::mat4 trans;
+
+		transformed_colored_rectangle() {
+			shader_b temp_shader = shaders::colored_transformed();
+			curr_mesh = meshes::rectangle(temp_shader);
+		}
+
+		inline void init() {
+			curr_mesh.init();
+			curr_mesh.get_shader().set_uniform_vec4("ourColor", 1.0f, 0.0f, 0.0f, 1.0f);
+		}
+
+		inline void draw(float time, unsigned long frameCounter, float deltaTime) {
+			//clearing the screen (so don't see the results from the previous  frame)
+			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);	//setting the clear color
+			glClear(GL_COLOR_BUFFER_BIT);	//want to clear the color buffer
+							//also possible
+							// - GL_DEPTH_BUFFER BIT
+							// - GL_STENCIL_BUFFER_BIT
+
+			trans = glm::mat4(1.0f);
+			trans = glm::translate(trans, glm::vec3(0.5f, -0.5f, 0.0f) );
+			trans = glm::rotate(trans, time, glm::vec3(0.0f, 0.0f, 1.0f) );	//continuous rotating about the z-axis
+
+
+			curr_mesh.get_shader().set_uniform_mat4("transform", trans);
+			curr_mesh.draw();
+		}
+	};
+
+
 
 };	//end namespace

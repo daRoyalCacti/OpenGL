@@ -62,29 +62,35 @@ namespace shaders {
 
 
 	inline shader_b color_through_uniforms() {	//example of passing info from the vertex shader to the fragment shader
-	
 		return shader_b(shader_from_file("../shaders/color_through_uniforms.vert").c_str(), shader_from_file("../shaders/color_through_uniforms.frag").c_str());
 	}
 
 
 	inline shader_c vertex_colors() {	//example of passing info from the vertex shader to the fragment shader
-		
 		return shader_c	(shader_from_file("../shaders/vertex_colors.vert").c_str(), shader_from_file("../shaders/vertex_colors.frag").c_str());
 	}
 
 
 	inline shader_tc textured_coloured() {	//example of passing info from the vertex shader to the fragment shader
-	
 		return shader_tc(shader_from_file("../shaders/textured_coloured.vert").c_str(), shader_from_file("../shaders/textured_coloured.frag").c_str());
 	}
 
 	inline shader_t textured() {	//example of passing info from the vertex shader to the fragment shader
-	
 		return shader_t(shader_from_file("../shaders/textured.vert").c_str(), shader_from_file("../shaders/textured.frag").c_str());
 	}
 
 	inline shader_t two_textures() {
 		return shader_t(shader_from_file("../shaders/2_textures.vert").c_str(), shader_from_file("../shaders/2_textures.frag").c_str());
+	}
+
+
+
+	inline shader_t textured_transformed() {	//example of passing info from the vertex shader to the fragment shader
+		return shader_t(shader_from_file("../shaders/textured_transform.vert").c_str(), shader_from_file("../shaders/textured_transform.frag").c_str());
+	}
+
+	inline shader_b colored_transformed() {	//example of passing info from the vertex shader to the fragment shader
+		return shader_b(shader_from_file("../shaders/colored_transform.vert").c_str(), shader_from_file("../shaders/colored_transform.frag").c_str());
 	}
 
 
