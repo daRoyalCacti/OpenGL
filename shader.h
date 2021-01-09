@@ -9,6 +9,7 @@
 #include <sstream>
 
 #include  <glm/glm.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 struct vertex_attributes {
 	GLuint attribute;
@@ -154,7 +155,7 @@ struct shader_b {
 		}
 
 		glUseProgram(shaderProgram);
-		glUniform1i(Location, (int)value);		//setting the color value
+		glUniform1i(Location, (int)value);		// 
 	}
 
 	inline void set_uniform_int(const std::string &unif_name, int value) const {
@@ -164,7 +165,7 @@ struct shader_b {
 		}
 
 		glUseProgram(shaderProgram);
-		glUniform1i(Location, value);		//setting the color value
+		glUniform1i(Location, value);		// 
 	}
 
 	inline void set_uniform_float(const std::string &unif_name, float value) const {
@@ -174,7 +175,7 @@ struct shader_b {
 		}
 
 		glUseProgram(shaderProgram);
-		glUniform1f(Location, value);		//setting the color value
+		glUniform1f(Location, value);		// 
 	}
 
 	inline void set_uniform_vec2(const std::string &unif_name, float x, float y) const {
@@ -184,8 +185,19 @@ struct shader_b {
 		}
 
 		glUseProgram(shaderProgram);
-		glUniform2f(Location, x, y);		//setting the color value
+		glUniform2f(Location, x, y);		// 
 	}
+
+	inline void set_uniform_vec2(const std::string &unif_name, const glm::vec2 &value) const {
+		int Location = glGetUniformLocation(shaderProgram, unif_name.c_str());
+		if (Location == -1) {	//the uniform could not be found
+			std::cerr << "could not find uniform " << unif_name << std::endl;
+		}
+
+		glUseProgram(shaderProgram);
+		glUniform2fv(Location, 1, glm::value_ptr(value) );		// 
+	}
+
 	
 	inline void set_uniform_vec3(const std::string &unif_name, float x, float y, float z) const {
 		int Location = glGetUniformLocation(shaderProgram, unif_name.c_str());
@@ -194,7 +206,17 @@ struct shader_b {
 		}
 
 		glUseProgram(shaderProgram);
-		glUniform3f(Location, x, y, z);		//setting the color value
+		glUniform3f(Location, x, y, z);		// 
+	}
+
+	inline void set_uniform_vec3(const std::string &unif_name, const glm::vec3 &value) const {
+		int Location = glGetUniformLocation(shaderProgram, unif_name.c_str());
+		if (Location == -1) {	//the uniform could not be found
+			std::cerr << "could not find uniform " << unif_name << std::endl;
+		}
+
+		glUseProgram(shaderProgram);
+		glUniform3fv(Location, 1, glm::value_ptr(value));		
 	}
 	
 	inline void set_uniform_vec4(const std::string &unif_name, float x, float y, float z, float w) const {
@@ -204,7 +226,48 @@ struct shader_b {
 		}
 
 		glUseProgram(shaderProgram);
-		glUniform4f(Location, x, y, z, y);		//setting the color value
+		glUniform4f(Location, x, y, z, w);		
+	}
+
+	inline void set_uniform_vec4(const std::string &unif_name, const glm::vec4 &value) const {
+		int Location = glGetUniformLocation(shaderProgram, unif_name.c_str());
+		if (Location == -1) {	//the uniform could not be found
+			std::cerr << "could not find uniform " << unif_name << std::endl;
+		}
+
+		glUseProgram(shaderProgram);
+		glUniform4fv(Location, 1, glm::value_ptr(value));	
+	}
+
+
+	inline void set_uniform_mat2(const std::string &unif_name, const glm::mat2 &value) const {
+		int Location = glGetUniformLocation(shaderProgram, unif_name.c_str());
+		if (Location == -1) {	//the uniform could not be found
+			std::cerr << "could not find uniform " << unif_name << std::endl;
+		}
+
+		glUseProgram(shaderProgram);
+		glUniformMatrix2fv(Location, 1, GL_FALSE, glm::value_ptr(value));	
+	}
+	
+	inline void set_uniform_mat3(const std::string &unif_name, const glm::mat3 &value) const {
+		int Location = glGetUniformLocation(shaderProgram, unif_name.c_str());
+		if (Location == -1) {	//the uniform could not be found
+			std::cerr << "could not find uniform " << unif_name << std::endl;
+		}
+
+		glUseProgram(shaderProgram);
+		glUniformMatrix3fv(Location, 1, GL_FALSE, glm::value_ptr(value));	
+	}
+
+	inline void set_uniform_mat4(const std::string &unif_name, const glm::mat4 &value) const {
+		int Location = glGetUniformLocation(shaderProgram, unif_name.c_str());
+		if (Location == -1) {	//the uniform could not be found
+			std::cerr << "could not find uniform " << unif_name << std::endl;
+		}
+
+		glUseProgram(shaderProgram);
+		glUniformMatrix4fv(Location, 1, GL_FALSE, glm::value_ptr(value));	
 	}
 };
 
