@@ -56,7 +56,7 @@ int main() {
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
 
-	scenes::transformed_textured_cube curr_scene;
+	scenes::many_cubes curr_scene;
 	curr_scene.init();
 
 	glEnable(GL_DEPTH_TEST);	//turning on the depth buffer

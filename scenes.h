@@ -6,6 +6,7 @@
 #include "camera.h"
 
 #include <cmath>
+#include <array>
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -432,6 +433,65 @@ namespace scenes {
 			curr_mesh.get_shader().set_uniform_mat4("transform", trans.get_matrix());
 
 			curr_mesh.draw();
+		}
+	};
+
+
+	struct many_cubes {
+		mesh_bt curr_mesh;
+		transformation trans;
+
+		std::array<glm::vec3, 10> cubePositions = {
+			glm::vec3( 0.0f,  0.0f,  0.0f), 
+			glm::vec3( 2.0f,  5.0f, -15.0f), 
+			glm::vec3(-1.5f, -2.2f, -2.5f),  
+			glm::vec3(-3.8f, -2.0f, -12.3f),  
+			glm::vec3( 2.4f, -0.4f, -3.5f),  
+			glm::vec3(-1.7f,  3.0f, -7.5f),  
+			glm::vec3( 1.3f, -2.0f, -2.5f),  
+			glm::vec3( 1.5f,  2.0f, -2.5f), 
+			glm::vec3( 1.5f,  0.2f, -1.5f), 
+			glm::vec3(-1.3f,  1.0f, -1.5f)  
+		};
+
+		many_cubes() {
+			shader_t temp_shader = shaders::textured_transformed();
+			texture_b temp_tex = textures::container();
+			curr_mesh = meshes::textured_cube(temp_tex, temp_shader);
+		}
+
+		inline void init() {
+			curr_mesh.init();
+
+			trans.view = glm::translate(trans.view, glm::vec3(0.0f, 0.0f, -3.0f) );	//moving away from the object
+
+			//curr_mesh.get_shader().set_uniform_mat4("transform", temp_transform);
+			curr_mesh.get_shader().set_uniform_int("t", 0);
+		}
+
+		inline void draw(float time, unsigned long frameCounter, float deltaTime) {
+			//clearing the screen (so don't see the results from the previous  frame)
+			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);	//setting the clear color
+
+
+			for (int i = 0; i < cubePositions.size(); i++) {
+				trans.model = glm::mat4(1.0f);
+				trans.model = glm::translate(trans.model, cubePositions[i]);
+				
+				float angle;
+				if (i % 3 == 0) {	//making every 3rd cube continuously spin
+					angle = time * glm::radians(50.0f);
+				} else {
+					angle = glm::radians(20.0f*i);
+				}
+
+
+				trans.model = glm::rotate(trans.model, angle, glm::vec3(1.0f, 0.3f, 0.5f) );
+
+				curr_mesh.get_shader().set_uniform_mat4("transform", trans.get_matrix());
+
+				curr_mesh.draw();
+			}
 		}
 	};
 
