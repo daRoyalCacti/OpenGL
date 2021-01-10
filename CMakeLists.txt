@@ -12,6 +12,7 @@ target_link_libraries(Generate GLAD)
 
 find_package(OpenGL REQUIRED)
 find_package(glfw3 3.3 REQUIRED)
+find_package(ASSIMP REQUIRED)
 
 
 target_include_directories(Generate PUBLIC
@@ -21,6 +22,7 @@ target_include_directories(Generate PUBLIC
 
 target_link_libraries(Generate glfw)
 target_link_libraries(Generate OpenGL::GL)
+target_link_libraries(Generate assimp)
 target_link_libraries(Generate ${CMAKE_DL_LIBS})
 
 #include_directories("/home/george/Documents/Projects/Libraries/")

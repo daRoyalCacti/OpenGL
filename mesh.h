@@ -5,6 +5,18 @@
 #include "shader.h"
 #include "texture.h"
 
+#include <string>
+
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
+
+std::vector<float> vertices_from_file(const std::string path) {
+	Assimp::Importer importer;
+	const aiScene *scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_GenNormals | aiProcess_FlipUVs);
+}
+
+
 //base mesh class
 struct mesh_b {
 	std::vector<float> vertices;
