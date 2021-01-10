@@ -55,9 +55,12 @@ int main() {
 	// - also gets called when the window is first displayed
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
+	camera_b* cam = new camera_rotation(3);
 
-	scenes::many_cubes curr_scene;
+	scenes::many_cubes_cam curr_scene(cam);
 	curr_scene.init();
+
+
 
 	glEnable(GL_DEPTH_TEST);	//turning on the depth buffer
 
@@ -79,7 +82,7 @@ int main() {
 		deltaTime = currTime - prevTime;
 		prevTime = currTime;
 
-		processInput(window);		//processing keyboard and mouse inputs
+		processInput(window, cam);		//processing keyboard and mouse inputs
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	//want to clear the color buffer and the depth buffer
 							//also possible : GL_STENCIL_BUFFER_BIT
