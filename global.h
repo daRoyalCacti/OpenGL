@@ -24,6 +24,8 @@ namespace settings {
 	constexpr float far_plane = 100.0f;
 	constexpr float fov = 45.0f;
 
+	constexpr int has_cursor = GLFW_CURSOR_DISABLED;
+
 	//derived from other settings
 	//==========================================
 	
