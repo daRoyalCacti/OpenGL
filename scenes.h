@@ -556,4 +556,85 @@ namespace scenes {
 		}
 	};
 
+
+
+	
+	struct lit_cube_cam {
+		mesh_b curr_mesh;
+		transformation trans;
+		camera_b *cam;
+
+
+		lit_cube_cam(camera_b *cam_) : cam(cam_) {
+			shader_l temp_shader = shaders::lit_transformed();
+			curr_mesh = meshes::lit_cube(temp_shader);
+		}
+
+		inline void init() {
+			curr_mesh.init();
+
+			//curr_mesh.get_shader().set_uniform_mat4("transform", temp_transform);
+
+			curr_mesh.get_shader().set_uniform_vec4("ourColor", 1.0f, 0.0f, 0.0f, 1.0f);
+			curr_mesh.get_shader().set_uniform_vec3("lightDir", -0.5f, -0.5f, 0.0f);
+		}
+
+		inline void draw(float time, unsigned long frameCounter, float deltaTime) {
+			//clearing the screen (so don't see the results from the previous  frame)
+			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);	//setting the clear color
+
+			trans.view = cam->view_matrix();
+
+
+			trans.model = glm::mat4(1.0f);
+
+			trans.model = glm::rotate(trans.model, glm::radians(20.0f), glm::vec3(1.0f, 0.0f, 0.0f) );
+
+			curr_mesh.get_shader().set_uniform_mat4("transform", trans.get_matrix());
+			curr_mesh.get_shader().set_uniform_mat4("model", trans.model);
+
+			curr_mesh.draw();
+		}
+	};
+
+
+	struct textured_lit_cube_cam {
+		mesh_bt curr_mesh;
+		transformation trans;
+		camera_b *cam;
+
+
+		textured_lit_cube_cam(camera_b *cam_) : cam(cam_) {
+			shader_lt temp_shader = shaders::textured_lit_transformed();
+			texture_b temp_tex = textures::container();
+			curr_mesh = meshes::textured_light_cube(temp_tex, temp_shader);
+		}
+
+		inline void init() {
+			curr_mesh.init();
+
+			curr_mesh.get_shader().set_uniform_vec3("lightDir", -0.5f, -0.5f, 0.0f);
+			curr_mesh.get_shader().set_uniform_int("t", 0);
+		}
+
+		inline void draw(float time, unsigned long frameCounter, float deltaTime) {
+			//clearing the screen (so don't see the results from the previous  frame)
+			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);	//setting the clear color
+
+			trans.view = cam->view_matrix();
+
+
+			trans.model = glm::mat4(1.0f);
+			trans.model = glm::rotate(trans.model, glm::radians(20.0f), glm::vec3(1.0f, 0.0f, 0.0f) );
+
+			curr_mesh.get_shader().set_uniform_mat4("transform", trans.get_matrix());
+			curr_mesh.get_shader().set_uniform_mat4("model", trans.model);
+
+
+			curr_mesh.draw();
+		}
+	};
+
+
+
 };	//end namespace

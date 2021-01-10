@@ -350,3 +350,49 @@ struct shader_t : public shader_b {
 
 
 };
+
+
+//lights and texture coords
+struct shader_lt : public shader_t {
+	shader_lt() {}
+	shader_lt(const char* vertexShaderSource, const char* fragmentShaderSource) {
+		set_shaders(vertexShaderSource, fragmentShaderSource);
+		attributes = {  vertex_attributes{0, 3, GL_FLOAT, GL_FALSE, 8*sizeof(float), (void*)0}, 
+				vertex_attributes{1, 3, GL_FLOAT, GL_FALSE, 8*sizeof(float), (void*)(3*sizeof(float) ) }, 
+	       			vertex_attributes{2, 2, GL_FLOAT, GL_FALSE, 8*sizeof(float), (void*)(6*sizeof(float) ) } };
+
+	}
+
+	shader_lt(const char* vertexShaderSource, const char* fragmentShaderSource, std::vector<vertex_attributes> attrib) {
+		set_shaders(vertexShaderSource, fragmentShaderSource);
+
+		if (attrib.size() != 3) {
+			std::cerr << "shader_c requires attrib to be of size 3" << std::endl;
+		}
+
+		attributes = attrib;
+	}
+};
+
+
+
+//lights
+struct shader_l : public shader_t {
+	shader_l() {}
+	shader_l(const char* vertexShaderSource, const char* fragmentShaderSource) {
+		set_shaders(vertexShaderSource, fragmentShaderSource);
+		attributes = {  vertex_attributes{0, 3, GL_FLOAT, GL_FALSE, 6*sizeof(float), (void*)0}, 
+	       			vertex_attributes{1, 3, GL_FLOAT, GL_FALSE, 6*sizeof(float), (void*)(3*sizeof(float) ) } };
+
+	}
+
+	shader_l(const char* vertexShaderSource, const char* fragmentShaderSource, std::vector<vertex_attributes> attrib) {
+		set_shaders(vertexShaderSource, fragmentShaderSource);
+
+		if (attrib.size() != 2) {
+			std::cerr << "shader_c requires attrib to be of size 2" << std::endl;
+		}
+
+		attributes = attrib;
+	}
+};

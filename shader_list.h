@@ -85,13 +85,20 @@ namespace shaders {
 
 
 
-	inline shader_t textured_transformed() {	//example of passing info from the vertex shader to the fragment shader
+	inline shader_t textured_transformed() {	
 		return shader_t(shader_from_file("../shaders/textured_transform.vert").c_str(), shader_from_file("../shaders/textured_transform.frag").c_str());
 	}
 
-	inline shader_b colored_transformed() {	//example of passing info from the vertex shader to the fragment shader
+	inline shader_b colored_transformed() {	
 		return shader_b(shader_from_file("../shaders/colored_transform.vert").c_str(), shader_from_file("../shaders/colored_transform.frag").c_str());
 	}
 
+	inline shader_l lit_transformed() {	
+		return shader_l(shader_from_file("../shaders/lit_transform.vert").c_str(), shader_from_file("../shaders/lit_transform.frag").c_str());
+	}
+
+	inline shader_lt textured_lit_transformed() {	
+		return shader_lt(shader_from_file("../shaders/textured_lit_transform.vert").c_str(), shader_from_file("../shaders/textured_lit_transform.frag").c_str());
+	}
 
 };

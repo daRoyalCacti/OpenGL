@@ -58,7 +58,7 @@ int main() {
 	camera_b* cam = new camera_player(glm::vec3(0.0f, 0.0f, 3.0f));
 	//camera_b* cam = new camera_rotation(3);
 
-	scenes::many_cubes_cam curr_scene(cam);
+	scenes::textured_lit_cube_cam curr_scene(cam);
 	curr_scene.init();
 
 
