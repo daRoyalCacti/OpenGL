@@ -1,5 +1,5 @@
 
 build/
 .idea/
-.cmake-build-debug/
-.vscode/settings.json
+cmake-build-debug/
+vscode/settings.json
