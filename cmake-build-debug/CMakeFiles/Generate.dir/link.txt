@@ -1,0 +1,1 @@
+/usr/bin/c++  -g   CMakeFiles/Generate.dir/main.cpp.o  -o Generate  libGLAD.a /usr/lib/libglfw.so.3.3 /usr/lib/libGL.so -lassimp -ldl 
