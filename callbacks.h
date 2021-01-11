@@ -4,6 +4,7 @@
 #include "global.h"
 
 #include "camera.h"
+#include "inputs.h"
 
 //what happens when the user resizes the window
 void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
@@ -19,7 +20,9 @@ namespace mouse_callback {
 	camera_b *cam;
 
 	void callback(GLFWwindow* window, double xpos, double ypos) {
-		cam->process_mouse(window, xpos, ypos);
+		if (!input_vars::capture_mouse) {
+			cam->process_mouse(window, xpos, ypos);
+		}
 	}
 
 
