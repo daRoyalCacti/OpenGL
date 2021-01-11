@@ -636,5 +636,82 @@ namespace scenes {
 	};
 
 
+	struct door {
+		mesh_it curr_mesh;
+		transformation trans;
+		camera_b *cam;
+
+
+		door(camera_b *cam_) : cam(cam_) {
+			shader_t temp_shader = shaders::textured_transformed();
+			curr_mesh = generate_model("../models/door/door.obj", temp_shader, false, false);
+		}
+
+		inline void init() {
+			curr_mesh.init();
+
+			trans.model = glm::mat4(1.0f);
+
+			//curr_mesh.get_shader().set_uniform_vec3("lightDir", -0.5f, -0.5f, -0.5f);
+			curr_mesh.get_shader().set_uniform_int("t", 0);
+		}
+
+		inline void draw(float time, unsigned long frameCounter, float deltaTime) {
+			//clearing the screen (so don't see the results from the previous  frame)
+			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);	//setting the clear color
+
+			trans.view = cam->view_matrix();
+
+
+			
+
+			curr_mesh.get_shader().set_uniform_mat4("transform", trans.get_matrix());
+			//curr_mesh.get_shader().set_uniform_mat4("model", trans.model);
+
+
+			curr_mesh.draw();
+		}
+	};
+
+
+	struct cup {
+		mesh_it curr_mesh;
+		transformation trans;
+		camera_b *cam;
+
+
+		cup(camera_b *cam_) : cam(cam_) {
+			shader_t temp_shader = shaders::textured_transformed();
+			curr_mesh = generate_model("../models/cup/cup.obj", temp_shader, false, false);
+		}
+
+		inline void init() {
+			curr_mesh.init();
+
+			trans.model = glm::mat4(1.0f);
+			trans.model = glm::scale(trans.model, glm::vec3(4,4,4));
+			trans.model = glm::rotate(trans.model, glm::radians(270.0f), glm::vec3(0,0,1));
+
+			//curr_mesh.get_shader().set_uniform_vec3("lightDir", -0.5f, -0.5f, -0.5f);
+			curr_mesh.get_shader().set_uniform_int("t", 0);
+		}
+
+		inline void draw(float time, unsigned long frameCounter, float deltaTime) {
+			//clearing the screen (so don't see the results from the previous  frame)
+			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);	//setting the clear color
+
+			trans.view = cam->view_matrix();
+
+
+			
+
+			curr_mesh.get_shader().set_uniform_mat4("transform", trans.get_matrix());
+			//curr_mesh.get_shader().set_uniform_mat4("model", trans.model);
+
+
+			curr_mesh.draw();
+		}
+	};
+
 
 };	//end namespace

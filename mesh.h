@@ -11,10 +11,8 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
-std::vector<float> vertices_from_file(const std::string path) {
-	Assimp::Importer importer;
-	const aiScene *scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_GenNormals | aiProcess_FlipUVs);
-}
+
+
 
 
 //base mesh class
@@ -360,6 +358,151 @@ struct mesh_it : public mesh_bt {	//mesh with texture
 
 
 
+
+void processMesh(aiMesh *mesh, const aiScene *scene, std::vector<float> &vertices, std::vector<unsigned> &indices, std::vector<float> &uvs, std::vector<std::string> &tex_paths, std::vector<float> &norms) {
+	
+	for (unsigned i = 0; i < mesh->mNumVertices; i++) {
+		//process vertex positions, normals and texture coordinates
+
+		vertices.push_back(mesh->mVertices[i].x);
+		vertices.push_back(mesh->mVertices[i].y);
+		vertices.push_back(mesh->mVertices[i].z);
+
+		norms.push_back(mesh->mNormals[i].x);
+		norms.push_back(mesh->mNormals[i].y);
+		norms.push_back(mesh->mNormals[i].z);
+		
+		if (mesh->mTextureCoords[0]) {	//does the mesh contiain texture coords
+			uvs.push_back(mesh->mTextureCoords[0][i].x);
+			uvs.push_back(mesh->mTextureCoords[0][i].y);
+		} else {
+			uvs.push_back(0.0f);
+			uvs.push_back(0.0f);
+		}
+	}
+
+	for (unsigned i = 0; i < mesh->mNumFaces; i++) {
+		//assimp defines eah mesh as having an array of faces
+		// - aiProcess_Triangulate means these faces are always triangles
+		//Iterate over all the faces and store the face's indices
+
+		const aiFace face = mesh->mFaces[i];
+		for (unsigned j = 0; j < face.mNumIndices; j++) {
+			indices.push_back(face.mIndices[j]);
+		}
+	}
+
+
+	if (mesh->mMaterialIndex >= 0) {
+		//currently only processes diffuse textures
+
+		//retribve the aiMaterial object from the scene
+		aiMaterial *mat = scene->mMaterials[mesh->mMaterialIndex];
+		//saying that want all diffuse textures
+		const aiTextureType type = aiTextureType_DIFFUSE;
+	
+				//actually loading the textures
+		for (unsigned i = 0; i < mat->GetTextureCount(type); i++) {
+			aiString str;
+			mat->GetTexture(type, i , &str);
+			std::string path = str.C_Str();
+
+			bool already_loaded = false;
+			for (int i = 0; i < tex_paths.size(); i++) {
+				if (path == tex_paths[i]) {
+					already_loaded = true;
+					break;
+				}
+			}
+			if (!already_loaded) {
+				tex_paths.push_back(path);	
+			}
+
+		}
+	}
+
+}
+
+
+void processNode(aiNode *node, const aiScene *scene, std::vector<float> &vertices, std::vector<unsigned> &indices, std::vector<float> &uvs, std::vector<std::string> &tex_paths, std::vector<float> &norms) {
+	//process all the node's meshes
+	for (unsigned i = 0; i < node->mNumMeshes; i++) {
+		aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
+		processMesh(mesh, scene, vertices, indices, uvs, tex_paths, norms);
+	}
+
+	//process the meshes of all the nodes children
+	for (unsigned i = 0; i < node->mNumChildren; i++) {
+		processNode(node->mChildren[i], scene, vertices, indices, uvs, tex_paths, norms);
+	}
+}
+
+
+
+mesh_it generate_model(const std::string file_name, shader_t shad, const bool load_normals = true, const bool flip_uvs = true) {
+	//https://learnopengl.com/Model-Loading/Model	
+	
+	std::vector<float> vertices;
+	std::vector<unsigned> indices;
+	std::vector<float> uvs;
+	std::vector<float> norms;
+	std::vector<std::string> tex_paths;
+
+	unsigned assimp_settings = aiProcess_Triangulate | aiProcess_GenNormals;
+
+
+	if (flip_uvs)
+		assimp_settings |= aiProcess_FlipUVs;
+
+	
+	Assimp::Importer importer;
+	const aiScene *scene = importer.ReadFile(file_name, assimp_settings);	
+			//aiProcess_Triangulate tells assimp to make the model entirely out of triangles
+			//aiProcess_GenNormals creates normal vectors for each vertex
+			//aiProcess_FlipUVS flips the texture coordinates on the y-axis
+
+	
+	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) {
+		std::cerr << "Assimp Error:\n\t" << importer.GetErrorString() << std::endl;
+	}
+
+	processNode(scene->mRootNode, scene, vertices, indices, uvs, tex_paths, norms);
+
+	//creating the vertex array correctly
+	std::vector<float> vert;
+	//vert.resize(vertices.size() + uvs.size() + norms.size());
+	
+	//std::cout << vertices.size() << std::endl;
+
+	for (int i = 0; i < vertices.size(); i+=3) {
+		vert.push_back(vertices[i]);
+		vert.push_back(vertices[i+1]);
+		vert.push_back(vertices[i+2]);
+	
+		if (load_normals) {
+			vert.push_back(norms[i]);
+			vert.push_back(norms[i+1]);
+			vert.push_back(norms[i+2]);
+		}
+
+		vert.push_back(uvs[i/3*2]);
+		vert.push_back(uvs[i/3*2+1]);
+	}
+	//std::cout << vert.size() << std::endl;
+
+	//finding the texture path correctly
+	std::string file_dir = file_name.substr(0, file_name.find_last_of('/') );
+	file_dir.append("/");
+	
+
+	/*
+	for (int i = 0; i < vertices.size(); i+=3)
+		std::cout << vertices[i] << " " << vertices[i+1] << " " << vertices[i+2] << std::endl;
+	*/
+
+
+	return mesh_it(vert, indices, texture_b(file_dir.append(tex_paths[0])), shad);
+}
 
 
 
